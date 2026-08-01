@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArduinoForge — Generador de Scripts Arduino</title>
+    <meta name="description" content="Genera scripts de Arduino con configuración automática de sensores, documentación de conexiones y funciones recomendadas. Compatible con ESP32, ESP32-CAM, LoRa, NodeMCU y Arduino Uno.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Animated Background -->
+        <div class="bg-effects">
+            <div class="bg-grid"></div>
+            <div class="bg-glow bg-glow-1"></div>
+            <div class="bg-glow bg-glow-2"></div>
+            <div class="bg-glow bg-glow-3"></div>
+        </div>
+
+        <!-- Header -->
+        <header id="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <h1>ArduinoForge</h1>
+                </div>
+                <p class="subtitle">Genera scripts de Arduino listos para cargar en tu placa</p>
+                <div class="header-badges">
+                    <span class="badge">Arduino Uno</span>
+                    <span class="badge">ESP32</span>
+                    <span class="badge">ESP32-CAM</span>
+                    <span class="badge">ESP32 LoRa</span>
+                    <span class="badge">NodeMCU</span>
+                    <span class="badge">ESP8266 Relé</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Project Name -->
+            <section class="section" id="section-name">
+                <div class="section-header">
+                    <span class="section-icon">📝</span>
+                    <h2>Nombre del Proyecto</h2>
+                </div>
+                <div class="project-name-wrapper">
+                    <input type="text" id="project-name" placeholder="mi_proyecto_arduino" maxlength="50" spellcheck="false">
+                </div>
+            </section>
+
+            <!-- Step 1: Board Selection -->
+            <section class="section" id="section-boards">
+                <div class="section-header">
+                    <span class="step-badge">1</span>
+                    <h2>Selecciona tu placa de desarrollo</h2>
+                </div>
+                <div class="board-grid" id="board-grid"></div>
+            </section>
+
+            <!-- Step 2: Component Selection -->
+            <section class="section" id="section-components">
+                <div class="section-header">
+                    <span class="step-badge">2</span>
+                    <h2>Selecciona sensores y actuadores</h2>
+                </div>
+                <p class="section-hint" id="components-hint">Selecciona una placa para ver los componentes disponibles</p>
+                <div class="component-grid" id="component-grid"></div>
+            </section>
+
+            <!-- Step 3: Recommended Functions -->
+            <section class="section" id="section-functions">
+                <div class="section-header">
+                    <span class="step-badge">3</span>
+                    <h2>Funciones recomendadas</h2>
+                </div>
+                <p class="section-hint" id="functions-hint">Selecciona componentes para ver funciones disponibles</p>
+                <div class="functions-grid" id="functions-grid"></div>
+            </section>
+
+            <!-- Generate Button -->
+            <div class="generate-wrapper" id="generate-wrapper">
+                <button id="btn-generate" class="btn-generate" disabled>
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">Generar Proyecto</span>
+                </button>
+                <p class="generate-hint" id="generate-hint">Selecciona al menos una placa y un componente</p>
+            </div>
+
+            <!-- Output Section -->
+            <section class="section output-section hidden" id="section-output">
+                <div class="section-header">
+                    <span class="section-icon">📦</span>
+                    <h2 id="output-title">Proyecto Generado</h2>
+                </div>
+
+                <div class="output-tabs" id="output-tabs">
+                    <button class="tab active" data-tab="code" id="tab-btn-code">
+                        <span>💻</span> Código
+                    </button>
+                    <button class="tab" data-tab="wiring" id="tab-btn-wiring">
+                        <span>🔌</span> Conexiones
+                    </button>
+                    <button class="tab" data-tab="notes" id="tab-btn-notes">
+                        <span>📋</span> Notas del Proyecto
+                    </button>
+                </div>
+
+                <div class="tab-panels">
+                    <div class="tab-panel active" id="panel-code">
+                        <div class="code-toolbar">
+                            <span class="code-filename" id="code-filename">proyecto.ino</span>
+                            <button class="btn-copy" id="btn-copy" title="Copiar código al portapapeles">
+                                📋 Copiar
+                            </button>
+                        </div>
+                        <div class="code-container">
+                            <pre id="code-pre"><code id="generated-code"></code></pre>
+                        </div>
+                    </div>
+                    <div class="tab-panel" id="panel-wiring">
+                        <div id="wiring-content" class="doc-content"></div>
+                    </div>
+                    <div class="tab-panel" id="panel-notes">
+                        <div id="notes-content" class="doc-content"></div>
+                    </div>
+                </div>
+
+                <div class="download-wrapper">
+                    <button id="btn-download" class="btn-download">
+                        <span>⬇️</span> Descargar Script (.ino)
+                    </button>
+                    <button id="btn-download-docs" class="btn-download btn-download-secondary">
+                        <span>📄</span> Descargar Documentación (.txt)
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>ArduinoForge — Generador de scripts Arduino • Creado con ⚡</p>
+        </footer>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
