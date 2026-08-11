@@ -228,6 +228,21 @@ header {
   text-transform: uppercase;
 }
 
+.header-oss-link {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-green);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.header-oss-link:hover {
+  color: var(--accent-blue);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.35);
+}
+
 /* --- Sections --- */
 .section {
   margin-bottom: 36px;
@@ -619,6 +634,208 @@ header {
   font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.4;
+}
+
+/* --- Open Source Projects --- */
+.opensource-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.opensource-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.opensource-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+
+.opensource-card.expanded {
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-glow-blue);
+  background: var(--bg-card-active);
+}
+
+.opensource-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 20px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+  color: inherit;
+}
+
+.opensource-card-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.opensource-card-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.opensource-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: 1.2;
+}
+
+.opensource-card-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-purple);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 2px;
+}
+
+.opensource-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.opensource-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.opensource-chevron {
+  font-size: 1rem;
+  color: var(--accent-blue);
+  width: 1.2em;
+  text-align: center;
+}
+
+.opensource-card-summary {
+  padding: 0 20px 16px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.opensource-card-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border-color);
+  margin: 0 4px;
+  animation: slideIn 0.25s ease-out;
+}
+
+.opensource-card-body[hidden] {
+  display: none;
+}
+
+.oss-block {
+  margin-top: 18px;
+}
+
+.oss-block h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-bottom: 10px;
+}
+
+.oss-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.oss-block ul li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.oss-block ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.oss-tutorial {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: none;
+}
+
+.oss-tutorial li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.oss-step-num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--bg-primary);
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  margin-top: 1px;
+}
+
+.oss-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.oss-ref-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  background: var(--accent-blue-dim);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.oss-ref-link:hover {
+  color: var(--text-heading);
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-glow-blue);
+  background: rgba(0, 212, 255, 0.22);
 }
 
 /* --- Generate Button --- */
@@ -1089,6 +1306,21 @@ footer {
   .component-grid,
   .functions-grid {
     grid-template-columns: 1fr;
+  }
+
+  .opensource-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .opensource-card-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .opensource-card-tags {
+    justify-content: flex-start;
   }
 
   .section-header h2 {

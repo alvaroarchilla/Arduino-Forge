@@ -959,6 +959,225 @@ void releTemporizar() {
 
 
 // ==============================================
+// DATA: Open Source Projects
+// ==============================================
+const OPEN_SOURCE_PROJECTS = [
+  {
+    id: 'wled',
+    name: 'WLED',
+    icon: '💡',
+    category: 'Iluminación',
+    boards: ['ESP32', 'ESP8266'],
+    description: 'Controla tiras LED direccionables (WS2812B, SK6812, APA102…) por WiFi con efectos, sincronización y app móvil. Ideal para ambientación, PC cases y proyectos DIY de luz.',
+    materials: [
+      'ESP32 o ESP8266 (NodeMCU / Wemos D1 Mini)',
+      'Tira LED WS2812B o SK6812 (5V)',
+      'Fuente de alimentación 5V adecuada al amperaje de la tira',
+      'Cable de datos (GPIO recomendado: 2 o 16 en ESP32)',
+      'Opcional: condensador 1000µF en la alimentación de la tira'
+    ],
+    tutorial: [
+      'Descarga el instalador web o el binario desde kno.wled.ge e instálalo por USB en tu ESP.',
+      'Al primer arranque, conéctate a la red WiFi «WLED-AP» (contraseña: wled1234).',
+      'Abre 4.3.2.1 en el navegador, configura tu WiFi doméstico y reinicia.',
+      'En LED Preferences, indica el tipo de LED, el GPIO de datos y el número de LEDs.',
+      'Prueba efectos desde la UI web o la app WLED; usa un nivel de brillo bajo al probar.'
+    ],
+    references: [
+      { label: 'Web oficial', url: 'https://kno.wled.ge/' },
+      { label: 'GitHub', url: 'https://github.com/wled/WLED' },
+      { label: 'Wiki', url: 'https://kno.wled.ge/basics/getting-started/' }
+    ]
+  },
+  {
+    id: 'tasmota',
+    name: 'Tasmota',
+    icon: '🔌',
+    category: 'Domótica',
+    boards: ['ESP32', 'ESP8266'],
+    description: 'Firmware alternativo para enchufes, relés, sensores y módulos ESP. Se configura por web, habla MQTT y se integra fácilmente con Home Assistant, Node-RED y OpenHAB.',
+    materials: [
+      'ESP8266 (NodeMCU, Wemos) o ESP32',
+      'Módulo relé, enchufe inteligente o sensores (DHT, DS18B20, etc.)',
+      'Adaptador USB-TTL si flasheas un dispositivo comercial',
+      'Broker MQTT (Mosquitto) opcional pero recomendado'
+    ],
+    tutorial: [
+      'Flashea Tasmota con Tasmotizer o el instalador web (tasmota.github.io/install).',
+      'Conéctate a la AP de Tasmota y entra en la configuración WiFi.',
+      'En Configuration → Configure Module, elige la plantilla o asigna pines (relé, botón, LED).',
+      'Configura MQTT (broker, topic, usuario) para automatizar desde Home Assistant.',
+      'Usa la consola web o comandos MQTT (Power ON/OFF, Status) para verificar el dispositivo.'
+    ],
+    references: [
+      { label: 'Documentación', url: 'https://tasmota.github.io/docs/' },
+      { label: 'GitHub', url: 'https://github.com/arendst/Tasmota' },
+      { label: 'Instalador web', url: 'https://tasmota.github.io/install/' }
+    ]
+  },
+  {
+    id: 'esphome',
+    name: 'ESPHome',
+    icon: '🏠',
+    category: 'Domótica',
+    boards: ['ESP32', 'ESP8266'],
+    description: 'Defines sensores y actuadores en YAML; ESPHome genera el firmware, lo flashea y se integra nativamente con Home Assistant. Perfecto si prefieres configuración declarativa frente a programar en C++.',
+    materials: [
+      'ESP32 o ESP8266',
+      'Sensores/actuadores soportados (BME280, AHT20, relé, display…)',
+      'Home Assistant (add-on ESPHome) o ESPHome CLI en el PC',
+      'Cable USB para el primer flasheo'
+    ],
+    tutorial: [
+      'Instala el add-on ESPHome en Home Assistant o `pip install esphome` en tu PC.',
+      'Crea un nuevo dispositivo y elige la placa; se genera un YAML base.',
+      'Añade componentes en el YAML (sensor, switch, light…) con el bus y los pines.',
+      'Compila y flashea por USB la primera vez; después puedes actualizar por OTA.',
+      'Acepta el dispositivo en Home Assistant; las entidades aparecerán automáticamente.'
+    ],
+    references: [
+      { label: 'Documentación', url: 'https://esphome.io/' },
+      { label: 'GitHub', url: 'https://github.com/esphome/esphome' },
+      { label: 'Sensores', url: 'https://esphome.io/components/' }
+    ]
+  },
+  {
+    id: 'meshtastic',
+    name: 'Meshtastic',
+    icon: '📡',
+    category: 'Comunicaciones',
+    boards: ['ESP32 LoRa', 'nRF52840'],
+    description: 'Red mesh off-grid por LoRa: mensajes, GPS y telemetría sin Internet ni SIM. Muy útil con placas ESP32 + SX1276/SX1262 (Heltec, LilyGO T-Beam, TTGO).',
+    materials: [
+      'Placa ESP32 LoRa (Heltec WiFi LoRa 32, LilyGO T-Beam, TTGO LoRa)',
+      'Antena LoRa adecuada a la frecuencia de tu región (EU868 / US915)',
+      'Batería LiPo si usas T-Beam u outdoor',
+      'App Meshtastic (Android/iOS) o cliente web/Python'
+    ],
+    tutorial: [
+      'Flashea el firmware desde flasher.meshtastic.org eligiendo tu placa.',
+      'Empareja el nodo por Bluetooth con la app Meshtastic.',
+      'Configura región LoRa (EU_868 en Europa), canal y nombre del nodo.',
+      'Activa GPS si tu placa lo tiene; verifica que la antena esté conectada antes de transmitir.',
+      'Prueba mensajes entre dos nodos a distancia; ajusta hop limit y potencia según el uso.'
+    ],
+    references: [
+      { label: 'Web oficial', url: 'https://meshtastic.org/' },
+      { label: 'Docs', url: 'https://meshtastic.org/docs/' },
+      { label: 'Flasher', url: 'https://flasher.meshtastic.org/' }
+    ]
+  },
+  {
+    id: 'marlin',
+    name: 'Marlin Firmware',
+    icon: '🖨️',
+    category: 'CNC / Impresión 3D',
+    boards: ['Arduino Mega', 'ESP32', 'STM32'],
+    description: 'Firmware de referencia para impresoras 3D FDM. Gestiona motores paso a paso, calentadores, sensores de temperatura, endstops y pantalla. Base de casi todas las impresoras DIY.',
+    materials: [
+      'Placa controladora (RAMPS 1.4 + Mega, SKR, Creality board…)',
+      'Drivers de motores (A4988, TMC2208/2209…)',
+      'Motores NEMA 17, hotend, cama caliente, termistores',
+      'Endstops o sensor de nivelado (BLTouch)',
+      'Arduino IDE o PlatformIO para compilar'
+    ],
+    tutorial: [
+      'Clona el repositorio Marlin y abre el proyecto en PlatformIO o Arduino IDE.',
+      'Copia la carpeta de configuración de tu impresora desde Configurations o ajusta Configuration.h.',
+      'Define placa (`MOTHERBOARD`), drivers, extrusores y sensores de temperatura.',
+      'Compila y sube el firmware; verifica movimientos con G-code (G28, G1) desde el host.',
+      'Calibra pasos/mm, PID del hotend y nivelado de cama antes de imprimir.'
+    ],
+    references: [
+      { label: 'Documentación', url: 'https://marlinfw.org/docs/basics/introduction.html' },
+      { label: 'GitHub', url: 'https://github.com/MarlinFirmware/Marlin' },
+      { label: 'Configs', url: 'https://github.com/MarlinFirmware/Configurations' }
+    ]
+  },
+  {
+    id: 'grbl',
+    name: 'GRBL',
+    icon: '⚙️',
+    category: 'CNC / Impresión 3D',
+    boards: ['Arduino Uno', 'Arduino Mega'],
+    description: 'Controlador CNC de alta precisión para fresadoras, láser y plotters. Interpreta G-code y genera pulsos para motores paso a paso en tiempo real. Ligero y muy estable en Arduino Uno.',
+    materials: [
+      'Arduino Uno (o CNC Shield + Uno)',
+      'Drivers A4988/DRV8825 y motores NEMA 17',
+      'Fuente 12V/24V para los motores',
+      'Endstops mecánicos o ópticos',
+      'Sender de G-code (Universal G-code Sender, Candle, LaserGRBL)'
+    ],
+    tutorial: [
+      'Instala GRBL 1.1 en el Uno desde el repo oficial o Library Manager.',
+      'Monta el CNC Shield, configura jumpers de microstepping y conecta los motores.',
+      'Abre Universal G-code Sender, conecta al puerto serie y prueba `$` para ver settings.',
+      'Configura pasos/mm (`$100`, `$101`, `$102`), velocidad máxima y límites blandos.',
+      'Homing con `$H` y envía un G-code de prueba a baja velocidad.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/gnea/grbl' },
+      { label: 'Wiki', url: 'https://github.com/gnea/grbl/wiki' },
+      { label: 'UGS', url: 'https://winder.github.io/ugs_website/' }
+    ]
+  },
+  {
+    id: 'openmqttgateway',
+    name: 'OpenMQTTGateway',
+    icon: '📶',
+    category: 'IoT / MQTT',
+    boards: ['ESP32', 'ESP8266'],
+    description: 'Puente entre sensores inalámbricos (BLE, RF 433 MHz, IR, LoRa) y MQTT. Ideal para integrar termómetros Xiaomi, mandos RF o balizas BLE en Home Assistant sin hubs propietarios.',
+    materials: [
+      'ESP32 (recomendado; más memoria y BLE nativo)',
+      'Opcional: receptor/transmisor 433 MHz (SX127x, CC1101) o IR',
+      'Broker MQTT',
+      'Sensores BLE o RF compatibles para probar'
+    ],
+    tutorial: [
+      'Flashea desde docs.openmqttgateway.com con el entorno que coincida con tu hardware.',
+      'Configura WiFi y MQTT en el portal cautivo al primer arranque.',
+      'Activa los gateways que necesites (BT, RF, IR) en la configuración web.',
+      'Suscríbese a los topics MQTT (`home/OpenMQTTGateway/...`) y verifica lecturas.',
+      'En Home Assistant, usa MQTT discovery o crea sensores a partir de esos topics.'
+    ],
+    references: [
+      { label: 'Documentación', url: 'https://docs.openmqttgateway.com/' },
+      { label: 'GitHub', url: 'https://github.com/1technophile/OpenMQTTGateway' },
+      { label: 'Compatible BLE', url: 'https://docs.openmqttgateway.com/compatible_ble.html' }
+    ]
+  },
+  {
+    id: 'arduino-foc',
+    name: 'SimpleFOC',
+    icon: '🌀',
+    category: 'Motores',
+    boards: ['Arduino Uno', 'ESP32', 'STM32'],
+    description: 'Librería de control FOC (Field Oriented Control) para motores brushless (BLDC) y steppers. Permite control suave de posición, velocidad y torque en robótica y gimbal.',
+    materials: [
+      'Placa compatible (Arduino Uno, Mega, ESP32, Nucleo…)',
+      'Driver BLDC (SimpleFOCShield, B-G431B-ESC1, DRV8302…)',
+      'Motor BLDC gimbal o drone (preferible con encoder/sensor Hall)',
+      'Sensor de posición (AS5600, encoder magnético, Hall)',
+      'Fuente adecuada a la tensión del motor'
+    ],
+    tutorial: [
+      'Instala la librería SimpleFOC desde el Library Manager de Arduino IDE.',
+      'Conecta driver, motor y sensor según el ejemplo de tu placa.',
+      'Abre un ejemplo (open_loop o closed_loop velocity) y ajusta pines PWM/sensor.',
+      'Calibra el sensor y la dirección eléctrica del motor con la herramienta integrada.',
+      'Pasa a control en lazo cerrado (ángulo/velocidad) y ajusta PID gradualmente.'
+    ],
+    references: [
+      { label: 'Documentación', url: 'https://docs.simplefoc.com/' },
+      { label: 'GitHub', url: 'https://github.com/simplefoc/Arduino-FOC' },
+      { label: 'Community', url: 'https://community.simplefoc.com/' }
+    ]
+  }
+];
+
+
+// ==============================================
 // STATE
 // ==============================================
 const state = {
@@ -967,7 +1186,8 @@ const state = {
   selectedFunctions: [],
   generatedCode: '',
   generatedWiring: '',
-  generatedNotes: ''
+  generatedNotes: '',
+  openSourceExpanded: null
 };
 
 
@@ -996,6 +1216,7 @@ function cacheDOMRefs() {
   DOM.btnDownloadDocs = document.getElementById('btn-download-docs');
   DOM.toast = document.getElementById('toast');
   DOM.outputTabs = document.getElementById('output-tabs');
+  DOM.opensourceGrid = document.getElementById('opensource-grid');
 }
 
 
@@ -1005,6 +1226,7 @@ function cacheDOMRefs() {
 document.addEventListener('DOMContentLoaded', () => {
   cacheDOMRefs();
   renderBoards();
+  renderOpenSourceProjects();
   setupEventListeners();
 });
 
@@ -1019,6 +1241,87 @@ function setupEventListeners() {
     if (!tab) return;
     switchTab(tab.dataset.tab);
   });
+}
+
+
+// ==============================================
+// RENDER: Open Source Projects
+// ==============================================
+function renderOpenSourceProjects() {
+  if (!DOM.opensourceGrid) return;
+  DOM.opensourceGrid.innerHTML = '';
+
+  OPEN_SOURCE_PROJECTS.forEach((project, idx) => {
+    const isExpanded = state.openSourceExpanded === project.id;
+    const card = document.createElement('article');
+    card.className = `opensource-card${isExpanded ? ' expanded' : ''}`;
+    card.dataset.projectId = project.id;
+    card.style.animation = `slideIn 0.35s ease-out ${idx * 0.04}s both`;
+
+    const boardsHTML = project.boards
+      .map(b => `<span class="c-tag other">${b}</span>`)
+      .join('');
+
+    const materialsHTML = project.materials
+      .map(m => `<li>${m}</li>`)
+      .join('');
+
+    const tutorialHTML = project.tutorial
+      .map((step, i) => `<li><span class="oss-step-num">${i + 1}</span>${step}</li>`)
+      .join('');
+
+    const refsHTML = project.references
+      .map(r => `<a class="oss-ref-link" href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label} ↗</a>`)
+      .join('');
+
+    card.innerHTML = `
+      <button type="button" class="opensource-card-header" aria-expanded="${isExpanded}">
+        <div class="opensource-card-title">
+          <span class="opensource-card-icon">${project.icon}</span>
+          <div>
+            <div class="opensource-card-name">${project.name}</div>
+            <div class="opensource-card-category">${project.category}</div>
+          </div>
+        </div>
+        <div class="opensource-card-meta">
+          <div class="opensource-card-tags">${boardsHTML}</div>
+          <span class="opensource-chevron" aria-hidden="true">${isExpanded ? '▾' : '▸'}</span>
+        </div>
+      </button>
+      <p class="opensource-card-summary">${project.description}</p>
+      <div class="opensource-card-body"${isExpanded ? '' : ' hidden'}>
+        <div class="oss-block">
+          <h4>🧰 Materiales recomendados</h4>
+          <ul>${materialsHTML}</ul>
+        </div>
+        <div class="oss-block">
+          <h4>📘 Tutorial rápido</h4>
+          <ol class="oss-tutorial">${tutorialHTML}</ol>
+        </div>
+        <div class="oss-block">
+          <h4>🔗 Referencias</h4>
+          <div class="oss-refs">${refsHTML}</div>
+        </div>
+      </div>
+    `;
+
+    const headerBtn = card.querySelector('.opensource-card-header');
+    headerBtn.addEventListener('click', () => toggleOpenSourceProject(project.id));
+
+    DOM.opensourceGrid.appendChild(card);
+  });
+}
+
+function toggleOpenSourceProject(projectId) {
+  state.openSourceExpanded = state.openSourceExpanded === projectId ? null : projectId;
+  renderOpenSourceProjects();
+
+  if (state.openSourceExpanded) {
+    const card = DOM.opensourceGrid.querySelector(`[data-project-id="${projectId}"]`);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 }
 
 
