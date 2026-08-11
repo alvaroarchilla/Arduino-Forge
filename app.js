@@ -19,7 +19,27 @@ const BOARDS = {
       buttonDefault: '2',
       buttonPin: '2',
       relayDefault: '7',
-      relayPin: '7'
+      relayPin: '7',
+      dhtDefault: '4',
+      dhtPin: '4',
+      ds18Default: '4',
+      ds18Pin: '4',
+      trigDefault: '9',
+      trigPin: '9',
+      echoDefault: '10',
+      echoPin: '10',
+      pirDefault: '3',
+      pirPin: '3',
+      soilDefault: 'A0',
+      soilPin: 'A0',
+      micDefault: 'A1',
+      micPin: 'A1',
+      servoDefault: '9',
+      servoPin: '9',
+      ledDefault: '6',
+      ledPin: '6',
+      pumpDefault: '8',
+      pumpPin: '8'
     },
     baudRate: 9600,
     notes: [
@@ -42,7 +62,27 @@ const BOARDS = {
       buttonDefault: '15',
       buttonPin: '15',
       relayDefault: '25',
-      relayPin: '25'
+      relayPin: '25',
+      dhtDefault: '4',
+      dhtPin: '4',
+      ds18Default: '4',
+      ds18Pin: '4',
+      trigDefault: '26',
+      trigPin: '26',
+      echoDefault: '27',
+      echoPin: '27',
+      pirDefault: '14',
+      pirPin: '14',
+      soilDefault: '34',
+      soilPin: '34',
+      micDefault: '35',
+      micPin: '35',
+      servoDefault: '18',
+      servoPin: '18',
+      ledDefault: '5',
+      ledPin: '5',
+      pumpDefault: '26',
+      pumpPin: '26'
     },
     baudRate: 115200,
     notes: [
@@ -66,7 +106,27 @@ const BOARDS = {
       buttonDefault: 'D3 (GPIO 0)',
       buttonPin: '0',
       relayDefault: 'D5 (GPIO 14)',
-      relayPin: '14'
+      relayPin: '14',
+      dhtDefault: 'D4 (GPIO 2)',
+      dhtPin: '2',
+      ds18Default: 'D4 (GPIO 2)',
+      ds18Pin: '2',
+      trigDefault: 'D6 (GPIO 12)',
+      trigPin: '12',
+      echoDefault: 'D7 (GPIO 13)',
+      echoPin: '13',
+      pirDefault: 'D5 (GPIO 14)',
+      pirPin: '14',
+      soilDefault: 'A0',
+      soilPin: 'A0',
+      micDefault: 'A0',
+      micPin: 'A0',
+      servoDefault: 'D6 (GPIO 12)',
+      servoPin: '12',
+      ledDefault: 'D2 (GPIO 4)',
+      ledPin: '4',
+      pumpDefault: 'D5 (GPIO 14)',
+      pumpPin: '14'
     },
     baudRate: 115200,
     notes: [
@@ -90,7 +150,27 @@ const BOARDS = {
       buttonDefault: '13',
       buttonPin: '13',
       relayDefault: '12',
-      relayPin: '12'
+      relayPin: '12',
+      dhtDefault: '13',
+      dhtPin: '13',
+      ds18Default: '13',
+      ds18Pin: '13',
+      trigDefault: '12',
+      trigPin: '12',
+      echoDefault: '13',
+      echoPin: '13',
+      pirDefault: '13',
+      pirPin: '13',
+      soilDefault: '2',
+      soilPin: '2',
+      micDefault: '2',
+      micPin: '2',
+      servoDefault: '12',
+      servoPin: '12',
+      ledDefault: '4',
+      ledPin: '4',
+      pumpDefault: '12',
+      pumpPin: '12'
     },
     baudRate: 115200,
     notes: [
@@ -116,7 +196,27 @@ const BOARDS = {
       buttonDefault: '0',
       buttonPin: '0',
       relayDefault: '23',
-      relayPin: '23'
+      relayPin: '23',
+      dhtDefault: '13',
+      dhtPin: '13',
+      ds18Default: '13',
+      ds18Pin: '13',
+      trigDefault: '25',
+      trigPin: '25',
+      echoDefault: '33',
+      echoPin: '33',
+      pirDefault: '32',
+      pirPin: '32',
+      soilDefault: '34',
+      soilPin: '34',
+      micDefault: '35',
+      micPin: '35',
+      servoDefault: '25',
+      servoPin: '25',
+      ledDefault: '12',
+      ledPin: '12',
+      pumpDefault: '23',
+      pumpPin: '23'
     },
     baudRate: 115200,
     notes: [
@@ -142,7 +242,27 @@ const BOARDS = {
       buttonDefault: null,
       buttonPin: null,
       relayDefault: 'GPIO 0',
-      relayPin: '0'
+      relayPin: '0',
+      dhtDefault: 'GPIO 2',
+      dhtPin: '2',
+      ds18Default: 'GPIO 2',
+      ds18Pin: '2',
+      trigDefault: null,
+      trigPin: null,
+      echoDefault: null,
+      echoPin: null,
+      pirDefault: 'GPIO 2',
+      pirPin: '2',
+      soilDefault: null,
+      soilPin: null,
+      micDefault: null,
+      micPin: null,
+      servoDefault: null,
+      servoPin: null,
+      ledDefault: 'GPIO 2',
+      ledPin: '2',
+      pumpDefault: 'GPIO 0',
+      pumpPin: '0'
     },
     baudRate: 115200,
     notes: [
@@ -319,6 +439,7 @@ const COMPONENTS = {
     library: null,
     includes: [],
     globalVars: null,
+    pinDefines: [{ name: 'PIN_BOTON', valueKey: 'buttonPin' }],
     needsAdafruitSensor: false,
     setupCode: [
       '// Configurar botón con pull-up interno',
@@ -398,6 +519,7 @@ const COMPONENTS = {
     library: null,
     includes: [],
     globalVars: null,
+    pinDefines: [{ name: 'PIN_RELE', valueKey: 'relayPin' }],
     needsAdafruitSensor: false,
     setupCode: [
       '// Configurar pin del relé como salida',
@@ -421,6 +543,336 @@ const COMPONENTS = {
         'Terminales NC (Normally Closed): la carga se apaga al activar el relé.',
         'Si la placa opera a 3.3V (ESP32, ESP8266), verifica que el módulo relé sea compatible con 3.3V lógico.',
         'Alimenta el relé con 5V desde una fuente externa si la placa no suministra suficiente corriente.'
+      ]
+    }
+  },
+
+  'bme280': {
+    name: 'BME280',
+    icon: '🌫️',
+    type: 'sensor',
+    category: 'Temperatura, Humedad y Presión',
+    interface: 'I2C',
+    address: '0x76 ó 0x77',
+    description: 'Sensor ambiental completo: temperatura, humedad relativa y presión barométrica',
+    library: 'Adafruit BME280',
+    includes: ['Adafruit_BME280.h'],
+    globalVars: 'Adafruit_BME280 bme;',
+    needsAdafruitSensor: true,
+    pinDefines: [],
+    setupCode: [
+      '// Inicializar sensor BME280',
+      'if (!bme.begin(0x76)) {',
+      '  Serial.println(F("ERROR: No se encontró el BME280. Prueba dirección 0x77."));',
+      '  while (1) delay(10);',
+      '}',
+      'Serial.println(F("✓ BME280 inicializado correctamente."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '3.3V' },
+        { component: 'GND', board: 'GND' },
+        { component: 'SDA', board: '{SDA}' },
+        { component: 'SCL', board: '{SCL}' }
+      ],
+      notes: [
+        'El BME280 opera a 3.3V. Usa un módulo con regulador si alimentas desde 5V.',
+        'Dirección I2C habitual: 0x76 (SDO a GND) o 0x77 (SDO a VCC).',
+        'No uses BME280 y BMP280 a la vez: suelen compartir la misma dirección.'
+      ]
+    }
+  },
+  'dht11': {
+    name: 'DHT11',
+    icon: '💧',
+    type: 'sensor',
+    category: 'Temperatura y Humedad',
+    interface: 'Digital',
+    address: null,
+    description: 'Sensor económico de temperatura y humedad relativa (1 cable de datos)',
+    library: 'DHT sensor library (Adafruit)',
+    includes: ['DHT.h'],
+    globalVars: 'DHT dht(PIN_DHT, DHT11);',
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_DHT', valueKey: 'dhtPin' }],
+    setupCode: [
+      '// Inicializar sensor DHT11',
+      'dht.begin();',
+      'Serial.println(F("✓ DHT11 inicializado."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '3.3V ó 5V' },
+        { component: 'GND', board: 'GND' },
+        { component: 'DATA', board: '{DHT_PIN}' }
+      ],
+      notes: [
+        'Si el módulo no trae resistencia pull-up, añade 4.7kΩ–10kΩ entre DATA y VCC.',
+        'Lecturas cada ≥1–2 s; lecturas más rápidas pueden fallar.',
+        'Precisión limitada (±2 °C / ±5 %RH). Para más precisión usa AHT20 o BME280.'
+      ]
+    }
+  },
+  'ds18b20': {
+    name: 'DS18B20',
+    icon: '🧊',
+    type: 'sensor',
+    category: 'Temperatura',
+    interface: 'OneWire',
+    address: null,
+    description: 'Sonda de temperatura digital 1-Wire, ideal para líquidos y exterior',
+    library: 'OneWire + DallasTemperature',
+    includes: ['OneWire.h', 'DallasTemperature.h'],
+    globalVars: [
+      'OneWire oneWire(PIN_DS18);',
+      'DallasTemperature ds18(&oneWire);'
+    ],
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_DS18', valueKey: 'ds18Pin' }],
+    setupCode: [
+      '// Inicializar sensor DS18B20',
+      'ds18.begin();',
+      'Serial.println(F("✓ DS18B20 inicializado."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC (rojo)', board: '3.3V ó 5V' },
+        { component: 'GND (negro)', board: 'GND' },
+        { component: 'DATA (amarillo)', board: '{DS18_PIN}' }
+      ],
+      notes: [
+        'Requiere resistencia pull-up de 4.7kΩ entre DATA y VCC.',
+        'Puedes conectar varias sondas en el mismo bus OneWire.',
+        'Rango típico: -55 °C a +125 °C.'
+      ]
+    }
+  },
+  'hc-sr04': {
+    name: 'HC-SR04',
+    icon: '📡',
+    type: 'sensor',
+    category: 'Distancia',
+    interface: 'Digital',
+    address: null,
+    description: 'Sensor ultrasónico de distancia (2–400 cm aprox.)',
+    library: null,
+    includes: [],
+    globalVars: null,
+    needsAdafruitSensor: false,
+    pinDefines: [
+      { name: 'PIN_TRIG', valueKey: 'trigPin' },
+      { name: 'PIN_ECHO', valueKey: 'echoPin' }
+    ],
+    setupCode: [
+      '// Configurar sensor ultrasónico HC-SR04',
+      'pinMode(PIN_TRIG, OUTPUT);',
+      'pinMode(PIN_ECHO, INPUT);',
+      'digitalWrite(PIN_TRIG, LOW);',
+      'Serial.println(F("✓ HC-SR04 configurado."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '5V' },
+        { component: 'GND', board: 'GND' },
+        { component: 'TRIG', board: '{TRIG_PIN}' },
+        { component: 'ECHO', board: '{ECHO_PIN}' }
+      ],
+      notes: [
+        'El HC-SR04 se alimenta a 5V. En ESP32/ESP8266, ECHO a 5V puede dañar el GPIO: usa divisor resistivo o módulo 3.3V.',
+        'Para exteriores/agua considera el JSN-SR04T (impermeable, mismo principio).',
+        'Evita superficies blandas o anguladas: la medición puede fallar.'
+      ]
+    }
+  },
+  'hc-sr501': {
+    name: 'HC-SR501 (PIR)',
+    icon: '👀',
+    type: 'sensor',
+    category: 'Movimiento',
+    interface: 'Digital',
+    address: null,
+    description: 'Detector de movimiento por infrarrojos pasivo (PIR)',
+    library: null,
+    includes: [],
+    globalVars: null,
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_PIR', valueKey: 'pirPin' }],
+    setupCode: [
+      '// Configurar sensor PIR HC-SR501',
+      'pinMode(PIN_PIR, INPUT);',
+      'Serial.println(F("✓ PIR HC-SR501 configurado."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '5V (ó 3.3V según módulo)' },
+        { component: 'GND', board: 'GND' },
+        { component: 'OUT', board: '{PIR_PIN}' }
+      ],
+      notes: [
+        'Tras alimentar, espera 30–60 s de estabilización.',
+        'Potenciómetros: sensibilidad y tiempo de retención (retardo).',
+        'Jumper H/L: modo retrigger (H) o single trigger (L).'
+      ]
+    }
+  },
+  'soil-moisture': {
+    name: 'Humedad de Suelo',
+    icon: '🌱',
+    type: 'sensor',
+    category: 'Humedad',
+    interface: 'Analog',
+    address: null,
+    description: 'Sensor analógico de humedad del suelo (higrometría)',
+    library: null,
+    includes: [],
+    globalVars: null,
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_SUELO', valueKey: 'soilPin' }],
+    setupCode: [
+      '// Sensor de humedad de suelo (entrada analógica)',
+      'Serial.println(F("✓ Sensor de humedad de suelo listo."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '3.3V ó 5V' },
+        { component: 'GND', board: 'GND' },
+        { component: 'A0 / AO', board: '{SOIL_PIN}' }
+      ],
+      notes: [
+        'Valores altos suelen indicar suelo seco (depende del módulo; calibra).',
+        'La sonda capacitiva dura más que la resistiva sumergida.',
+        'En ESP8266 solo hay A0 (0–1 V). En ESP32 usa ADC (p.ej. GPIO34).'
+      ]
+    }
+  },
+  'max4466': {
+    name: 'GY-MAX4466 (Mic)',
+    icon: '🎤',
+    type: 'sensor',
+    category: 'Audio',
+    interface: 'Analog',
+    address: null,
+    description: 'Módulo micrófono electret con amplificador y ganancia ajustable',
+    library: null,
+    includes: [],
+    globalVars: null,
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_MIC', valueKey: 'micPin' }],
+    setupCode: [
+      '// Micrófono MAX4466 (entrada analógica)',
+      'Serial.println(F("✓ Micrófono MAX4466 listo."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC', board: '3.3V ó 5V' },
+        { component: 'GND', board: 'GND' },
+        { component: 'OUT', board: '{MIC_PIN}' }
+      ],
+      notes: [
+        'Ajusta la ganancia con el potenciómetro del módulo.',
+        'La salida es centrada en VCC/2: mide amplitud (pico/RMS) para nivel de sonido.',
+        'En NodeMCU comparte A0 con otros sensores analógicos.'
+      ]
+    }
+  },
+  'sg90': {
+    name: 'Servo SG90 / FS90R',
+    icon: '🦾',
+    type: 'actuator',
+    category: 'Movimiento',
+    interface: 'PWM',
+    address: null,
+    description: 'Microservo 9g (SG90 0–180°) o rotación continua (FS90R)',
+    library: 'Servo (Arduino) / ESP32Servo (ESP32)',
+    includes: ['Servo.h'],
+    globalVars: 'Servo servoMotor;',
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_SERVO', valueKey: 'servoPin' }],
+    setupCode: [
+      '// Inicializar servo',
+      'servoMotor.attach(PIN_SERVO);',
+      'servoMotor.write(90); // posición central',
+      'Serial.println(F("✓ Servo inicializado en pin {SERVO_PIN}."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC (rojo)', board: '5V (fuente externa si es posible)' },
+        { component: 'GND (marrón/negro)', board: 'GND común' },
+        { component: 'Signal (naranja/amarillo)', board: '{SERVO_PIN}' }
+      ],
+      notes: [
+        'No alimentes varios servos solo desde el USB de la placa: usa fuente externa y GND común.',
+        'En ESP32 instala la librería ESP32Servo (API compatible con Servo.h).',
+        'FS90R es de rotación continua: write(0/180) velocidad, write(90) paro.'
+      ]
+    }
+  },
+  'ws2812': {
+    name: 'WS2812 / NeoPixel',
+    icon: '🌈',
+    type: 'actuator',
+    category: 'Iluminación',
+    interface: 'Digital',
+    address: null,
+    description: 'Tira o módulo LED RGB direccionable (WS2812B / NeoPixel)',
+    library: 'Adafruit NeoPixel',
+    includes: ['Adafruit_NeoPixel.h'],
+    globalVars: [
+      '#define NUM_LEDS 8',
+      'Adafruit_NeoPixel strip(NUM_LEDS, PIN_LED, NEO_GRB + NEO_KHZ800);'
+    ],
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_LED', valueKey: 'ledPin' }],
+    setupCode: [
+      '// Inicializar tira WS2812',
+      'strip.begin();',
+      'strip.setBrightness(40);',
+      'strip.show();',
+      'Serial.println(F("✓ WS2812 inicializado."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'VCC (5V)', board: '5V (fuente adecuada al amperaje)' },
+        { component: 'GND', board: 'GND común' },
+        { component: 'DIN / DATA', board: '{LED_PIN}' }
+      ],
+      notes: [
+        'Calcula ~60 mA por LED a brillo máximo. Usa fuente externa para tiras largas.',
+        'Condensador ~1000 µF en la alimentación de la tira ayuda a estabilizar.',
+        'En ESP32/ESP8266 el nivel lógico 3.3V suele funcionar; si no, level shifter.'
+      ]
+    }
+  },
+  'water-pump': {
+    name: 'Bomba de Agua 5V',
+    icon: '🚿',
+    type: 'actuator',
+    category: 'Riego',
+    interface: 'Digital',
+    address: null,
+    description: 'Microbomba sumergible 5V (controlar con MOSFET/relé, no directo al GPIO)',
+    library: null,
+    includes: [],
+    globalVars: null,
+    needsAdafruitSensor: false,
+    pinDefines: [{ name: 'PIN_BOMBA', valueKey: 'pumpPin' }],
+    setupCode: [
+      '// Configurar control de bomba (vía MOSFET/relé)',
+      'pinMode(PIN_BOMBA, OUTPUT);',
+      'digitalWrite(PIN_BOMBA, LOW); // bomba apagada',
+      'Serial.println(F("✓ Bomba configurada en pin {PUMP_PIN}."));'
+    ],
+    wiring: {
+      pins: [
+        { component: 'Señal MOSFET/Relé IN', board: '{PUMP_PIN}' },
+        { component: 'Bomba +', board: '5V fuente' },
+        { component: 'Bomba −', board: 'Drenador MOSFET / COM-NO relé' },
+        { component: 'GND', board: 'GND común placa + fuente' }
+      ],
+      notes: [
+        'Nunca conectes la bomba directamente a un GPIO: consume demasiada corriente.',
+        'Usa MOSFET (IRLZ44N, etc.) o módulo relé. Diodo flyback si el driver no lo incluye.',
+        'Fuente 5V dedicada recomendada; comparte GND con la placa.'
       ]
     }
   },
@@ -538,7 +990,7 @@ void leerOrientacion() {
     name: 'Mostrar Datos en Pantalla OLED',
     icon: '📺',
     description: 'Muestra las lecturas de sensores en la pantalla OLED',
-    requiresAny: ['aht10', 'aht20', 'bmp280', 'mpu9250'],
+    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20', 'hc-sr04', 'soil-moisture'],
     requiresAll: ['oled-ssd1306'],
     generateCode: (selComp) => {
       let lines = [];
@@ -579,6 +1031,51 @@ void leerOrientacion() {
         lines.push('  display.println(mpu.accelY(), 1);');
       }
 
+      if (selComp.includes('bme280')) {
+        lines.push('');
+        lines.push('  display.print(F("BME T:"));');
+        lines.push('  display.print(bme.readTemperature(), 1);');
+        lines.push('  display.println(F("C"));');
+        lines.push('  display.print(F("Hum:"));');
+        lines.push('  display.print(bme.readHumidity(), 1);');
+        lines.push('  display.println(F("%"));');
+      }
+
+      if (selComp.includes('dht11')) {
+        lines.push('');
+        lines.push('  display.print(F("DHT T:"));');
+        lines.push('  display.print(dht.readTemperature(), 1);');
+        lines.push('  display.println(F("C"));');
+        lines.push('  display.print(F("Hum:"));');
+        lines.push('  display.print(dht.readHumidity(), 1);');
+        lines.push('  display.println(F("%"));');
+      }
+
+      if (selComp.includes('ds18b20')) {
+        lines.push('');
+        lines.push('  ds18.requestTemperatures();');
+        lines.push('  display.print(F("DS18:"));');
+        lines.push('  display.print(ds18.getTempCByIndex(0), 1);');
+        lines.push('  display.println(F("C"));');
+      }
+
+      if (selComp.includes('hc-sr04')) {
+        lines.push('');
+        lines.push('  digitalWrite(PIN_TRIG, LOW); delayMicroseconds(2);');
+        lines.push('  digitalWrite(PIN_TRIG, HIGH); delayMicroseconds(10);');
+        lines.push('  digitalWrite(PIN_TRIG, LOW);');
+        lines.push('  float d = pulseIn(PIN_ECHO, HIGH, 30000UL) * 0.01715;');
+        lines.push('  display.print(F("Dist:"));');
+        lines.push('  display.print(d, 1);');
+        lines.push('  display.println(F("cm"));');
+      }
+
+      if (selComp.includes('soil-moisture')) {
+        lines.push('');
+        lines.push('  display.print(F("Suelo:"));');
+        lines.push('  display.println(analogRead(PIN_SUELO));');
+      }
+
       lines.push('');
       lines.push('  display.display();');
       lines.push('}');
@@ -591,7 +1088,7 @@ void leerOrientacion() {
     name: 'Escáner I2C y Validación',
     icon: '🔎',
     description: 'Detecta dispositivos I2C conectados y comprueba las direcciones del bus',
-    requiresAny: ['aht10', 'aht20', 'bmp280', 'mpu9250', 'oled-ssd1306'],
+    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'oled-ssd1306'],
     requiresAll: [],
     generateCode: () =>
 `// ─── Función: Escáner I2C ───
@@ -662,7 +1159,7 @@ bool leerBoton() {
     name: 'Alternar Pantallas con Botón',
     icon: '🔄',
     description: 'Usa el botón para cambiar entre pantallas de datos en el OLED',
-    requiresAny: ['aht10', 'aht20', 'bmp280', 'mpu9250'],
+    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20'],
     requiresAll: ['button', 'oled-ssd1306'],
     generateCode: (selComp) => {
       let modes = [];
@@ -715,6 +1212,49 @@ bool leerBoton() {
         caseCode += `      display.println(mpu.accelZ(), 2);\n`;
         caseCode += `      break;\n`;
         modes.push('IMU');
+      }
+
+      if (selComp.includes('bme280')) {
+        caseCode += `    case ${modes.length}:\n`;
+        caseCode += `      display.println(F("== BME280 =="));\n`;
+        caseCode += `      display.println();\n`;
+        caseCode += `      display.print(F("Temp: "));\n`;
+        caseCode += `      display.print(bme.readTemperature(), 1);\n`;
+        caseCode += `      display.println(F(" C"));\n`;
+        caseCode += `      display.print(F("Hum:  "));\n`;
+        caseCode += `      display.print(bme.readHumidity(), 1);\n`;
+        caseCode += `      display.println(F(" %"));\n`;
+        caseCode += `      display.print(F("Pres: "));\n`;
+        caseCode += `      display.print(bme.readPressure() / 100.0F, 1);\n`;
+        caseCode += `      display.println(F(" hPa"));\n`;
+        caseCode += `      break;\n`;
+        modes.push('BME280');
+      }
+
+      if (selComp.includes('dht11')) {
+        caseCode += `    case ${modes.length}:\n`;
+        caseCode += `      display.println(F("== DHT11 =="));\n`;
+        caseCode += `      display.println();\n`;
+        caseCode += `      display.print(F("Temp: "));\n`;
+        caseCode += `      display.print(dht.readTemperature(), 1);\n`;
+        caseCode += `      display.println(F(" C"));\n`;
+        caseCode += `      display.print(F("Hum:  "));\n`;
+        caseCode += `      display.print(dht.readHumidity(), 1);\n`;
+        caseCode += `      display.println(F(" %"));\n`;
+        caseCode += `      break;\n`;
+        modes.push('DHT11');
+      }
+
+      if (selComp.includes('ds18b20')) {
+        caseCode += `    case ${modes.length}:\n`;
+        caseCode += `      ds18.requestTemperatures();\n`;
+        caseCode += `      display.println(F("== DS18B20 =="));\n`;
+        caseCode += `      display.println();\n`;
+        caseCode += `      display.print(F("Temp: "));\n`;
+        caseCode += `      display.print(ds18.getTempCByIndex(0), 1);\n`;
+        caseCode += `      display.println(F(" C"));\n`;
+        caseCode += `      break;\n`;
+        modes.push('DS18B20');
       }
 
       const totalModes = modes.length || 1;
@@ -772,7 +1312,7 @@ ${caseCode}  }
     name: 'Registro de Datos CSV (Serie)',
     icon: '📊',
     description: 'Envía datos de sensores en formato CSV por puerto serie para análisis',
-    requiresAny: ['aht10', 'aht20', 'bmp280', 'mpu9250'],
+    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20', 'hc-sr04', 'soil-moisture'],
     requiresAll: [],
     generateCode: (selComp) => {
       let headers = ['millis'];
@@ -786,6 +1326,21 @@ ${caseCode}  }
       }
       if (selComp.includes('mpu9250')) {
         headers.push('accelX', 'accelY', 'accelZ');
+      }
+      if (selComp.includes('bme280')) {
+        headers.push('bme_temp_C', 'bme_hum_%', 'bme_pres_hPa');
+      }
+      if (selComp.includes('dht11')) {
+        headers.push('dht_temp_C', 'dht_hum_%');
+      }
+      if (selComp.includes('ds18b20')) {
+        headers.push('ds18_temp_C');
+      }
+      if (selComp.includes('hc-sr04')) {
+        headers.push('dist_cm');
+      }
+      if (selComp.includes('soil-moisture')) {
+        headers.push('soil_raw');
       }
 
       let readBlock = '';
@@ -806,6 +1361,29 @@ ${caseCode}  }
         dataPrints.push('  Serial.print(F(",")); Serial.print(mpu.accelX());');
         dataPrints.push('  Serial.print(F(",")); Serial.print(mpu.accelY());');
         dataPrints.push('  Serial.print(F(",")); Serial.print(mpu.accelZ());');
+      }
+      if (selComp.includes('bme280')) {
+        dataPrints.push('  Serial.print(F(",")); Serial.print(bme.readTemperature());');
+        dataPrints.push('  Serial.print(F(",")); Serial.print(bme.readHumidity());');
+        dataPrints.push('  Serial.print(F(",")); Serial.print(bme.readPressure() / 100.0F);');
+      }
+      if (selComp.includes('dht11')) {
+        dataPrints.push('  Serial.print(F(",")); Serial.print(dht.readTemperature());');
+        dataPrints.push('  Serial.print(F(",")); Serial.print(dht.readHumidity());');
+      }
+      if (selComp.includes('ds18b20')) {
+        readBlock += '  ds18.requestTemperatures();\n';
+        dataPrints.push('  Serial.print(F(",")); Serial.print(ds18.getTempCByIndex(0));');
+      }
+      if (selComp.includes('hc-sr04')) {
+        readBlock += '  digitalWrite(PIN_TRIG, LOW); delayMicroseconds(2);\n';
+        readBlock += '  digitalWrite(PIN_TRIG, HIGH); delayMicroseconds(10);\n';
+        readBlock += '  digitalWrite(PIN_TRIG, LOW);\n';
+        readBlock += '  float distCm = pulseIn(PIN_ECHO, HIGH, 30000UL) * 0.01715;\n';
+        dataPrints.push('  Serial.print(F(",")); Serial.print(distCm);');
+      }
+      if (selComp.includes('soil-moisture')) {
+        dataPrints.push('  Serial.print(F(",")); Serial.print(analogRead(PIN_SUELO));');
       }
 
       const headerStr = headers.join(',');
@@ -859,6 +1437,7 @@ void alertaTemperatura() {
     description: 'Activa/desactiva el relé enviando comandos por el monitor serie',
     requiresAny: ['relay'],
     requiresAll: [],
+    runEveryLoop: true,
     generateCode: () =>
 `// ─── Función: Control de Relé por Serie ───
 bool releActivo = false;
@@ -889,6 +1468,7 @@ void controlarRelePorSerie() {
     description: 'Usa el botón para activar/desactivar el relé con cada pulsación',
     requiresAny: [],
     requiresAll: ['relay', 'button'],
+    runEveryLoop: true,
     generateCode: () =>
 `// ─── Función: Toggle Relé con Botón ───
 bool releEncendido = false;
@@ -926,6 +1506,7 @@ void toggleReleConBoton() {
     description: 'Activa el relé durante un tiempo configurable cuando se envía comando',
     requiresAny: ['relay'],
     requiresAll: [],
+    runEveryLoop: true,
     generateCode: () =>
 `// ─── Función: Relé Temporizado ───
 const unsigned long DURACION_RELE = 5000;  // ms — Modifica este valor
@@ -954,7 +1535,432 @@ void releTemporizar() {
   }
 }`,
     loopCall: 'releTemporizar();'
+  },
+
+  {
+    id: 'serial-bme280',
+    name: 'Lectura BME280 (Temp/Hum/Presión)',
+    icon: '🌫️',
+    description: 'Lee temperatura, humedad y presión del BME280 por puerto serie',
+    requiresAny: ['bme280'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Leer BME280 ───
+void leerBME280() {
+  Serial.print(F("Temp: "));
+  Serial.print(bme.readTemperature());
+  Serial.println(F(" °C"));
+  Serial.print(F("Hum:  "));
+  Serial.print(bme.readHumidity());
+  Serial.println(F(" %"));
+  Serial.print(F("Pres: "));
+  Serial.print(bme.readPressure() / 100.0F);
+  Serial.println(F(" hPa"));
+}`,
+    loopCall: 'leerBME280();'
+  },
+  {
+    id: 'serial-dht11',
+    name: 'Lectura DHT11',
+    icon: '💧',
+    description: 'Lee temperatura y humedad del DHT11 por puerto serie',
+    requiresAny: ['dht11'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Leer DHT11 ───
+void leerDHT11() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  if (isnan(h) || isnan(t)) {
+    Serial.println(F("ERROR: lectura DHT11 fallida"));
+    return;
   }
+  Serial.print(F("Temp: "));
+  Serial.print(t);
+  Serial.println(F(" °C"));
+  Serial.print(F("Hum:  "));
+  Serial.print(h);
+  Serial.println(F(" %"));
+}`,
+    loopCall: 'leerDHT11();'
+  },
+  {
+    id: 'serial-ds18b20',
+    name: 'Lectura DS18B20',
+    icon: '🧊',
+    description: 'Lee la temperatura de la sonda DS18B20 por puerto serie',
+    requiresAny: ['ds18b20'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Leer DS18B20 ───
+void leerDS18B20() {
+  ds18.requestTemperatures();
+  float t = ds18.getTempCByIndex(0);
+  if (t == DEVICE_DISCONNECTED_C) {
+    Serial.println(F("ERROR: DS18B20 no responde"));
+    return;
+  }
+  Serial.print(F("Temp DS18B20: "));
+  Serial.print(t);
+  Serial.println(F(" °C"));
+}`,
+    loopCall: 'leerDS18B20();'
+  },
+  {
+    id: 'serial-distance',
+    name: 'Medir Distancia (HC-SR04)',
+    icon: '📡',
+    description: 'Mide distancia en cm con el sensor ultrasónico',
+    requiresAny: ['hc-sr04'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Medir Distancia ───
+float medirDistanciaCm() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+
+  unsigned long duracion = pulseIn(PIN_ECHO, HIGH, 30000UL);
+  if (duracion == 0) return -1.0;
+  return (duracion * 0.0343) / 2.0;
+}
+
+void leerDistancia() {
+  float cm = medirDistanciaCm();
+  if (cm < 0) {
+    Serial.println(F("Sin eco (fuera de rango)"));
+    return;
+  }
+  Serial.print(F("Distancia: "));
+  Serial.print(cm, 1);
+  Serial.println(F(" cm"));
+}`,
+    loopCall: 'leerDistancia();'
+  },
+  {
+    id: 'pir-detect',
+    name: 'Detección de Movimiento (PIR)',
+    icon: '👀',
+    description: 'Detecta movimiento con el HC-SR501 y lo muestra por serie',
+    requiresAny: ['hc-sr501'],
+    requiresAll: [],
+    runEveryLoop: true,
+    generateCode: () =>
+`// ─── Función: Detectar Movimiento PIR ───
+void detectarMovimiento() {
+  static bool ultimo = false;
+  bool movimiento = digitalRead(PIN_PIR) == HIGH;
+  if (movimiento != ultimo) {
+    ultimo = movimiento;
+    if (movimiento) {
+      Serial.println(F("¡Movimiento detectado!"));
+    } else {
+      Serial.println(F("Sin movimiento"));
+    }
+  }
+}`,
+    loopCall: 'detectarMovimiento();'
+  },
+  {
+    id: 'serial-soil',
+    name: 'Lectura Humedad de Suelo',
+    icon: '🌱',
+    description: 'Lee el valor analógico del sensor de humedad de suelo',
+    requiresAny: ['soil-moisture'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Leer Humedad de Suelo ───
+void leerHumedadSuelo() {
+  int raw = analogRead(PIN_SUELO);
+  // Calibra estos extremos según tu sensor y suelo
+  const int SECO = 3500;
+  const int HUMEDO = 1500;
+  int pct = map(constrain(raw, HUMEDO, SECO), SECO, HUMEDO, 0, 100);
+
+  Serial.print(F("Suelo raw: "));
+  Serial.print(raw);
+  Serial.print(F("  ≈ "));
+  Serial.print(pct);
+  Serial.println(F(" % humedad"));
+}`,
+    loopCall: 'leerHumedadSuelo();'
+  },
+  {
+    id: 'serial-mic',
+    name: 'Nivel de Sonido (MAX4466)',
+    icon: '🎤',
+    description: 'Estima el nivel de sonido midiendo picos en la señal del micrófono',
+    requiresAny: ['max4466'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Nivel de Sonido ───
+void leerNivelSonido() {
+  int pico = 0;
+  unsigned long t0 = millis();
+  while (millis() - t0 < 50) {
+    int v = analogRead(PIN_MIC);
+    int desv = abs(v - 2048); // ajusta al centro ADC de tu placa
+    if (desv > pico) pico = desv;
+  }
+  Serial.print(F("Nivel sonido (pico): "));
+  Serial.println(pico);
+}`,
+    loopCall: 'leerNivelSonido();'
+  },
+  {
+    id: 'servo-sweep',
+    name: 'Barrido de Servo',
+    icon: '🦾',
+    description: 'Mueve el servo de 0° a 180° y vuelta de forma suave',
+    requiresAny: ['sg90'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Barrido de Servo ───
+void barridoServo() {
+  static int angulo = 0;
+  static int paso = 5;
+
+  servoMotor.write(angulo);
+  angulo += paso;
+  if (angulo >= 180 || angulo <= 0) {
+    paso = -paso;
+  }
+  Serial.print(F("Servo: "));
+  Serial.print(angulo);
+  Serial.println(F("°"));
+}`,
+    loopCall: 'barridoServo();'
+  },
+  {
+    id: 'servo-serial',
+    name: 'Servo por Comando Serie',
+    icon: '🎛️',
+    description: 'Envía un ángulo 0–180 por el monitor serie para posicionar el servo',
+    requiresAny: ['sg90'],
+    requiresAll: [],
+    runEveryLoop: true,
+    generateCode: () =>
+`// ─── Función: Control Servo por Serie ───
+void controlarServoPorSerie() {
+  if (Serial.available() > 0) {
+    int angulo = Serial.parseInt();
+    angulo = constrain(angulo, 0, 180);
+    servoMotor.write(angulo);
+    Serial.print(F("Servo -> "));
+    Serial.print(angulo);
+    Serial.println(F("°"));
+  }
+}`,
+    loopCall: 'controlarServoPorSerie();'
+  },
+  {
+    id: 'ws2812-rainbow',
+    name: 'Arcoíris WS2812',
+    icon: '🌈',
+    description: 'Efecto arcoíris simple en la tira WS2812',
+    requiresAny: ['ws2812'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Arcoíris WS2812 ───
+uint32_t colorRueda(byte pos) {
+  pos = 255 - pos;
+  if (pos < 85) return strip.Color(255 - pos * 3, 0, pos * 3);
+  if (pos < 170) {
+    pos -= 85;
+    return strip.Color(0, pos * 3, 255 - pos * 3);
+  }
+  pos -= 170;
+  return strip.Color(pos * 3, 255 - pos * 3, 0);
+}
+
+void efectoArcoiris() {
+  static uint16_t j = 0;
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, colorRueda((i * 256 / strip.numPixels() + j) & 255));
+  }
+  strip.show();
+  j++;
+}`,
+    loopCall: 'efectoArcoiris();'
+  },
+  {
+    id: 'ws2812-solid',
+    name: 'Color Fijo WS2812',
+    icon: '💡',
+    description: 'Enciende toda la tira en un color RGB configurable',
+    requiresAny: ['ws2812'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Color Fijo WS2812 ───
+void colorFijoWS2812() {
+  // Modifica R, G, B (0–255)
+  uint32_t color = strip.Color(0, 80, 255);
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, color);
+  }
+  strip.show();
+}`,
+    loopCall: 'colorFijoWS2812();'
+  },
+  {
+    id: 'pump-timed',
+    name: 'Bomba Temporizada',
+    icon: '⏱️',
+    description: 'Activa la bomba unos segundos al enviar "b" por el monitor serie',
+    requiresAny: ['water-pump'],
+    requiresAll: [],
+    runEveryLoop: true,
+    generateCode: () =>
+`// ─── Función: Bomba Temporizada ───
+const unsigned long DURACION_BOMBA = 5000; // ms
+unsigned long bombaInicioMs = 0;
+bool bombaActiva = false;
+
+void bombaTemporizar() {
+  if (Serial.available() > 0) {
+    char cmd = Serial.read();
+    if (cmd == 'b') {
+      digitalWrite(PIN_BOMBA, HIGH);
+      bombaInicioMs = millis();
+      bombaActiva = true;
+      Serial.println(F("Bomba ON"));
+    }
+  }
+  if (bombaActiva && (millis() - bombaInicioMs >= DURACION_BOMBA)) {
+    digitalWrite(PIN_BOMBA, LOW);
+    bombaActiva = false;
+    Serial.println(F("Bomba OFF (tiempo cumplido)"));
+  }
+}`,
+    loopCall: 'bombaTemporizar();'
+  },
+  {
+    id: 'auto-irrigation',
+    name: 'Riego Automático',
+    icon: '🌿',
+    description: 'Enciende la bomba si el suelo está más seco que un umbral',
+    requiresAny: [],
+    requiresAll: ['soil-moisture', 'water-pump'],
+    generateCode: () =>
+`// ─── Función: Riego Automático ───
+const int UMBRAL_SECO = 2500; // calibra según tu sensor
+const unsigned long RIEGO_MS = 4000;
+
+void riegoAutomatico() {
+  static unsigned long riegoHasta = 0;
+  int raw = analogRead(PIN_SUELO);
+
+  if (millis() < riegoHasta) {
+    digitalWrite(PIN_BOMBA, HIGH);
+    return;
+  }
+  digitalWrite(PIN_BOMBA, LOW);
+
+  if (raw > UMBRAL_SECO) {
+    Serial.print(F("Suelo seco ("));
+    Serial.print(raw);
+    Serial.println(F("). Regando..."));
+    digitalWrite(PIN_BOMBA, HIGH);
+    riegoHasta = millis() + RIEGO_MS;
+  } else {
+    Serial.print(F("Suelo OK ("));
+    Serial.print(raw);
+    Serial.println(F(")"));
+  }
+}`,
+    loopCall: 'riegoAutomatico();'
+  },
+  {
+    id: 'motion-light',
+    name: 'Luz por Movimiento',
+    icon: '🚨',
+    description: 'Enciende LEDs WS2812 cuando el PIR detecta movimiento',
+    requiresAny: [],
+    requiresAll: ['hc-sr501', 'ws2812'],
+    runEveryLoop: true,
+    generateCode: () =>
+`// ─── Función: Luz por Movimiento ───
+const unsigned long LUZ_MS = 8000;
+unsigned long luzHasta = 0;
+
+void luzPorMovimiento() {
+  if (digitalRead(PIN_PIR) == HIGH) {
+    luzHasta = millis() + LUZ_MS;
+  }
+
+  bool encender = millis() < luzHasta;
+  uint32_t color = encender ? strip.Color(255, 180, 40) : strip.Color(0, 0, 0);
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, color);
+  }
+  strip.show();
+}`,
+    loopCall: 'luzPorMovimiento();'
+  },
+  {
+    id: 'distance-alert',
+    name: 'Alerta de Proximidad',
+    icon: '⚠️',
+    description: 'Avisa por serie cuando un objeto está más cerca del umbral',
+    requiresAny: ['hc-sr04'],
+    requiresAll: [],
+    generateCode: () =>
+`// ─── Función: Alerta de Proximidad ───
+const float DIST_UMBRAL_CM = 20.0;
+
+void alertaProximidad() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+  unsigned long duracion = pulseIn(PIN_ECHO, HIGH, 30000UL);
+  if (duracion == 0) return;
+  float cm = (duracion * 0.0343) / 2.0;
+  if (cm < DIST_UMBRAL_CM) {
+    Serial.print(F("⚠ Objeto cerca: "));
+    Serial.print(cm, 1);
+    Serial.println(F(" cm"));
+  }
+}`,
+    loopCall: 'alertaProximidad();'
+  },
+  {
+    id: 'temp-alert-multi',
+    name: 'Alerta de Temperatura (Multi)',
+    icon: '🔔',
+    description: 'Alerta por serie si la temperatura supera el umbral (DHT/DS18/BME/AHT)',
+    requiresAny: ['aht10', 'aht20', 'dht11', 'ds18b20', 'bme280'],
+    requiresAll: [],
+    generateCode: (selComp) => {
+      let body = '';
+      if (selComp.includes('aht10') || selComp.includes('aht20')) {
+        body += `  sensors_event_t humidity, temp;\n  aht.getEvent(&humidity, &temp);\n  float t = temp.temperature;\n`;
+      } else if (selComp.includes('bme280')) {
+        body += `  float t = bme.readTemperature();\n`;
+      } else if (selComp.includes('dht11')) {
+        body += `  float t = dht.readTemperature();\n  if (isnan(t)) return;\n`;
+      } else if (selComp.includes('ds18b20')) {
+        body += `  ds18.requestTemperatures();\n  float t = ds18.getTempCByIndex(0);\n  if (t == DEVICE_DISCONNECTED_C) return;\n`;
+      } else {
+        body += `  float t = 0;\n`;
+      }
+      return `// ─── Función: Alerta de Temperatura ───
+const float TEMP_UMBRAL = 30.0;  // °C
+
+void alertaTemperaturaMulti() {
+${body}  if (t > TEMP_UMBRAL) {
+    Serial.print(F("⚠ Temperatura alta: "));
+    Serial.print(t);
+    Serial.println(F(" °C"));
+  }
+}`;
+    },
+    loopCall: 'alertaTemperaturaMulti();'
+  },
+
 ];
 
 
@@ -1400,7 +2406,10 @@ function renderComponents() {
       card.id = `component-${id}`;
       card.style.animation = 'slideIn 0.3s ease-out';
 
-      const interfaceClass = comp.interface === 'I2C' ? 'i2c' : (comp.interface === 'Digital' ? 'digital' : 'other');
+      const interfaceClass = comp.interface === 'I2C' ? 'i2c'
+        : (comp.interface === 'Digital' ? 'digital'
+        : (comp.interface === 'Analog' ? 'analog'
+        : (comp.interface === 'OneWire' || comp.interface === 'PWM' ? 'other' : 'other')));
       const typeLabels = { sensor: 'Sensor', actuator: 'Actuador', accessory: 'Accesorio' };
       const typeClass = comp.type;
 
@@ -1503,11 +2512,15 @@ function selectBoard(boardId) {
 function toggleComponent(componentId) {
   const idx = state.selectedComponents.indexOf(componentId);
 
-  // Check conflict: AHT10 + AHT20 share same address
-  if (componentId === 'aht10' && state.selectedComponents.includes('aht20')) {
-    state.selectedComponents = state.selectedComponents.filter(c => c !== 'aht20');
-  } else if (componentId === 'aht20' && state.selectedComponents.includes('aht10')) {
-    state.selectedComponents = state.selectedComponents.filter(c => c !== 'aht10');
+  // Conflictos de dirección / exclusiones
+  const conflicts = {
+    'aht10': ['aht20'],
+    'aht20': ['aht10'],
+    'bmp280': ['bme280'],
+    'bme280': ['bmp280']
+  };
+  if (conflicts[componentId]) {
+    state.selectedComponents = state.selectedComponents.filter(c => !conflicts[componentId].includes(c));
   }
 
   if (idx === -1) {
@@ -1565,6 +2578,31 @@ function updateGenerateButton() {
   }
 }
 
+
+
+function resolveWiringToken(board, value) {
+  const tokens = {
+    '{SDA}': board.pins.sda,
+    '{SCL}': board.pins.scl,
+    '{BUTTON_PIN}': board.pins.buttonDefault || 'N/A',
+    '{RELAY_PIN}': board.pins.relayDefault || 'N/A',
+    '{DHT_PIN}': board.pins.dhtDefault || 'N/A',
+    '{DS18_PIN}': board.pins.ds18Default || 'N/A',
+    '{TRIG_PIN}': board.pins.trigDefault || 'N/A',
+    '{ECHO_PIN}': board.pins.echoDefault || 'N/A',
+    '{PIR_PIN}': board.pins.pirDefault || 'N/A',
+    '{SOIL_PIN}': board.pins.soilDefault || 'N/A',
+    '{MIC_PIN}': board.pins.micDefault || 'N/A',
+    '{SERVO_PIN}': board.pins.servoDefault || 'N/A',
+    '{LED_PIN}': board.pins.ledDefault || 'N/A',
+    '{PUMP_PIN}': board.pins.pumpDefault || 'N/A'
+  };
+  let out = value;
+  Object.entries(tokens).forEach(([token, pin]) => {
+    out = out.split(token).join(pin);
+  });
+  return out;
+}
 
 // ==============================================
 // CODE GENERATION
@@ -1650,16 +2688,21 @@ function generateCode(board, projectName) {
   code += `\n`;
 
   // ─── Defines & Constants ───
-  const hasButton = selComp.includes('button');
-  const hasRelay = selComp.includes('relay');
-  if (hasButton || hasRelay) {
+  const pinLines = [];
+  const usedDefines = new Set();
+  components.forEach(c => {
+    if (!c.pinDefines) return;
+    c.pinDefines.forEach(p => {
+      if (usedDefines.has(p.name)) return;
+      const val = board.pins[p.valueKey];
+      if (val === null || val === undefined || val === '') return;
+      usedDefines.add(p.name);
+      pinLines.push(`#define ${p.name} ${val}`);
+    });
+  });
+  if (pinLines.length > 0) {
     code += `// ═══ Pines ═══\n`;
-    if (hasButton && board.pins.buttonPin) {
-      code += `#define PIN_BOTON ${board.pins.buttonPin}\n`;
-    }
-    if (hasRelay && board.pins.relayPin) {
-      code += `#define PIN_RELE ${board.pins.relayPin}\n`;
-    }
+    pinLines.forEach(line => { code += `${line}\n`; });
     code += `\n`;
   }
 
@@ -1713,11 +2756,7 @@ function generateCode(board, projectName) {
   // Component setup code
   components.forEach(c => {
     c.setupCode.forEach(line => {
-      let processedLine = line
-        .replace('{SDA}', board.pins.sda)
-        .replace('{SCL}', board.pins.scl)
-        .replace('{BUTTON_PIN}', board.pins.buttonDefault || 'N/A')
-        .replace('{RELAY_PIN}', board.pins.relayDefault || 'N/A');
+      let processedLine = resolveWiringToken(board, line);
       code += `  ${processedLine}\n`;
     });
     code += `\n`;
@@ -1755,25 +2794,31 @@ function generateCode(board, projectName) {
     code += `    Serial.println(F("Loop activo..."));\n`;
     code += `  }\n`;
   } else {
-    // Check for button-related functions that run every loop
     const hasToggle = selFuncs.includes('toggle-display');
-    const hasButtonDebounce = selFuncs.includes('button-debounce') && !hasToggle;
 
-    // Button functions run on every loop iteration
+    // Funciones que deben ejecutarse en cada iteración (sin esperar intervalo)
+    const everyLoopFns = functions.filter(f => {
+      if (f.id === 'toggle-display') return false; // tratado aparte
+      if (f.id === 'button-debounce' && hasToggle) return false;
+      return f.runEveryLoop || f.id === 'button-debounce';
+    });
+
     if (hasToggle) {
       code += `  // Comprobar botón (sin delay)\n`;
       code += `  alternarModo();\n`;
       code += `\n`;
-    } else if (hasButtonDebounce) {
-      code += `  // Comprobar botón (sin delay)\n`;
-      code += `  leerBoton();\n`;
-      code += `\n`;
     }
+
+    everyLoopFns.forEach(fn => {
+      code += `  ${fn.loopCall}\n`;
+    });
+    if (everyLoopFns.length) code += `\n`;
 
     // Timed functions
     const timedFunctions = functions.filter(f =>
       f.id !== 'button-debounce' &&
-      f.id !== 'toggle-display'
+      f.id !== 'toggle-display' &&
+      !f.runEveryLoop
     );
 
     // If toggle-display is selected, don't include display-sensors in timed
@@ -1852,11 +2897,7 @@ function generateWiringDocs(board) {
     </tr></thead><tbody>`;
 
     comp.wiring.pins.forEach(pin => {
-      let boardPin = pin.board
-        .replace('{SDA}', board.pins.sda)
-        .replace('{SCL}', board.pins.scl)
-        .replace('{BUTTON_PIN}', board.pins.buttonDefault || 'N/A')
-        .replace('{RELAY_PIN}', board.pins.relayDefault || 'N/A');
+      let boardPin = resolveWiringToken(board, pin.board);
 
       html += `<tr>
         <td>${pin.component}</td>
@@ -1915,7 +2956,7 @@ function generateWiringDocs(board) {
     html += `<div class="info-box">ℹ️ Tu placa opera a <strong>3.3V</strong>. Los módulos seleccionados son compatibles, pero verifica siempre las especificaciones de tu módulo concreto.</div>`;
   } else {
     const has3v3Comp = state.selectedComponents.some(id =>
-      ['bmp280', 'mpu9250'].includes(id)
+      ['bmp280', 'bme280', 'mpu9250'].includes(id)
     );
     if (has3v3Comp) {
       html += `<div class="warning-box">⚠️ Tu placa opera a <strong>5V</strong>, pero algunos sensores seleccionados (BMP280, MPU9250) trabajan a 3.3V. Usa módulos con regulador integrado o añade un conversor de nivel lógico.</div>`;
@@ -2086,17 +3127,21 @@ function highlightSyntax(code) {
   const types = [
     'Adafruit_AHTX0', 'Adafruit_BMP280', 'Adafruit_SSD1306',
     'MPU9250_asukiaaa', 'sensors_event_t', 'String',
-    'SSD1306_SWITCHCAPVCC', 'SSD1306_WHITE'
+    'SSD1306_SWITCHCAPVCC', 'SSD1306_WHITE',
+    'DHT', 'DHT11', 'OneWire', 'DallasTemperature', 'Servo',
+    'Adafruit_BME280', 'Adafruit_NeoPixel', 'NEO_GRB', 'NEO_KHZ800'
   ];
   const typeRegex = new RegExp(`\\b(${types.join('|')})\\b`, 'g');
   result = result.replace(typeRegex, (m) => ph('syn-type', m));
 
   // 1g. Known objects / constants
   const constants = [
-    'Serial', 'Wire', 'display', 'aht', 'bmp', 'mpu',
+    'Serial', 'Wire', 'display', 'aht', 'bmp', 'bme', 'mpu', 'dht', 'ds18', 'strip', 'servoMotor',
     'SCREEN_WIDTH', 'SCREEN_HEIGHT', 'OLED_RESET',
-    'PIN_BOTON', 'PIN_RELE', 'INTERVALO_LECTURA', 'TOTAL_MODOS',
-    'TEMP_UMBRAL', 'DEBOUNCE_MS', 'DURACION_RELE'
+    'PIN_BOTON', 'PIN_RELE', 'PIN_DHT', 'PIN_DS18', 'PIN_TRIG', 'PIN_ECHO', 'PIN_PIR',
+    'PIN_SUELO', 'PIN_MIC', 'PIN_SERVO', 'PIN_LED', 'PIN_BOMBA', 'NUM_LEDS',
+    'INTERVALO_LECTURA', 'TOTAL_MODOS', 'TEMP_UMBRAL', 'DEBOUNCE_MS',
+    'DURACION_RELE', 'DURACION_BOMBA', 'DEVICE_DISCONNECTED_C'
   ];
   const constRegex = new RegExp(`\\b(${constants.join('|')})\\b`, 'g');
   result = result.replace(constRegex, (m) => ph('syn-constant', m));

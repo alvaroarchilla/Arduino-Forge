@@ -561,6 +561,11 @@ header {
   background: var(--bg-secondary);
 }
 
+.c-tag.analog {
+  color: var(--accent-yellow);
+  background: rgba(251, 191, 36, 0.12);
+}
+
 /* --- Function Cards --- */
 .functions-grid {
   display: grid;
