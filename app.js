@@ -2179,6 +2179,271 @@ const OPEN_SOURCE_PROJECTS = [
       { label: 'GitHub', url: 'https://github.com/simplefoc/Arduino-FOC' },
       { label: 'Community', url: 'https://community.simplefoc.com/' }
     ]
+  },
+  {
+    id: 'mjpeg2sd',
+    name: 'ESP32-CAM MJPEG2SD',
+    icon: '🐦',
+    category: 'Cámara / Vigilancia',
+    boards: ['ESP32-CAM', 'ESP32-S3'],
+    description: 'El proyecto más completo para vigilancia con ESP32-CAM: servidor web MJPEG, detección de movimiento por cámara, grabación AVI en microSD y alertas por Telegram (foto + enlace al vídeo). Ideal como base para una cámara de pájaros.',
+    materials: [
+      'ESP32-CAM (AI-Thinker) u OV2640/OV5640 compatible',
+      'Adaptador USB-TTL (FTDI/CP2102) para flashear',
+      'microSD formateada (FAT32) para grabaciones',
+      'Fuente 5V estable (≥1–1.5 A)',
+      'Bot de Telegram (token BotFather + Chat ID)',
+      'Opcional: PIR HC-SR501, micrófono I2S, carcasa exterior'
+    ],
+    tutorial: [
+      'Clona github.com/s60sc/ESP32-CAM_MJPEG2SD y ábrelo en Arduino IDE (placa AI Thinker ESP32-CAM).',
+      'Activa Telegram: en el código pon `#define INCLUDE_TGRAM true` y compila/sube el firmware.',
+      'Crea un bot con @BotFather y obtén tu Chat ID con @myidbot; introdúcelos en Edit Config → Other.',
+      'En la UI web activa motion detect, ajusta sensibilidad y zona; prueba el stream MJPEG en el navegador.',
+      'Al detectar movimiento recibirás en Telegram un fotograma y un enlace para descargar el AVI (hasta ~50 MB).'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/s60sc/ESP32-CAM_MJPEG2SD' },
+      { label: 'Telegram (wiki)', url: 'https://github.com/s60sc/ESP32-CAM_MJPEG2SD#telegram-bot' },
+      { label: 'Motion detect', url: 'https://github.com/s60sc/ESP32-CAM_MJPEG2SD#motion-detection-by-camera' }
+    ]
+  },
+  {
+    id: 'wildlife-camera',
+    name: 'Wildlife Camera (ESP32-CAM)',
+    icon: '🦌',
+    category: 'Cámara / Vigilancia',
+    boards: ['ESP32-CAM'],
+    description: 'Cámara de fauna a batería: el PIR despierta la placa, captura foto, la guarda en SD y la envía a Telegram si hay WiFi. Controlable por comandos del bot (/photo, /status…). Más simple que MJPEG2SD, muy buena para exterior.',
+    materials: [
+      'ESP32-CAM',
+      'Sensor PIR (HC-SR501 o AM312 a 3.3 V)',
+      'microSD',
+      'Batería LiPo + módulo de carga (TP4056 / IP2312)',
+      'Bot de Telegram',
+      'Carcasa impermeable y soporte apuntando al comedero/bebedero'
+    ],
+    tutorial: [
+      'Clona github.com/wizlab-it/wildlife-camera y configura WiFi + token/chat de Telegram.',
+      'Cablea el PIR (OUT a un GPIO libre, p. ej. 13; VCC según el módulo 3.3 V o 5 V).',
+      'Flashea con USB-TTL (GPIO0 a GND en modo descarga), inserta la SD y alimenta a 5 V.',
+      'Prueba /photo y /status desde Telegram; verifica que el movimiento dispare capturas.',
+      'Ajusta deep sleep y sensibilidad del PIR para ahorrar batería y reducir falsas alarmas por viento.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/wizlab-it/wildlife-camera' },
+      { label: 'WildCAM_ESP32', url: 'https://github.com/thewriterben/WildCAM_ESP32' }
+    ]
+  },
+  {
+    id: 'birdwatch-edge',
+    name: 'Birdwatch Edge Platform',
+    icon: '🪺',
+    category: 'Cámara / Vigilancia',
+    boards: ['ESP32-S3 Sense'],
+    description: 'Plataforma avanzada de birdwatching: despierta por PIR, filtra falsos disparos (nubes/luz) en el edge y solo entonces sube la foto a un servidor. Pensada para meses con una LiPo; la IA de “¿es pájaro?” suele vivir en el servidor (p. ej. Flask + detector).',
+    materials: [
+      'Seeed XIAO ESP32-S3 Sense (o ESP32-S3 con cámara)',
+      'PIR de bajo consumo',
+      'LiPo + load switch (p. ej. TPS22918) para apagado total',
+      'Servidor local (Raspberry Pi / PC) con WiFi',
+      'Opcional: BirdNET o modelo de detección de aves en el servidor'
+    ],
+    tutorial: [
+      'Revisa el repo happychriss/birdwatch-edge-platform: el flujo es PIR → arranque frío → filtro de escena → JPEG → POST al servidor.',
+      'Monta el hardware de ultra-bajo standby (~140 µA) según el README (load switch + PIR).',
+      'Configura el endpoint del servidor Flask/home para recibir imagen + voltaje de batería.',
+      'En el servidor añade detección/clasificación (BirdNET, YOLO, etc.) y notificaciones (Telegram/email).',
+      'Coloca la cámara fija al comedero; calibra el filtro para ignorar movimiento de hojas y cambios de luz.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/happychriss/birdwatch-edge-platform' },
+      { label: 'BirdNET', url: 'https://github.com/kahst/BirdNET-Analyzer' }
+    ]
+  },
+  {
+    id: '1d-pong',
+    name: '1D Pong',
+    icon: '🏓',
+    category: 'Juegos LED',
+    boards: ['Arduino Pro Mini', 'Arduino Nano', 'ESP32'],
+    description: 'Pong en una sola dimensión sobre tira LED direccionable. Dos jugadores golpean la “bola” con pulsadores cuando llega a su zona; la velocidad sube con cada toque. Clásico de ferias maker (inspirado en 34C3).',
+    materials: [
+      'Arduino Pro Mini / Nano (o ESP32 adaptando pines)',
+      'Tira APA102 o WS2812 (~60 LEDs/m, 1 m)',
+      'Fuente 5V ≥2 A',
+      '2–3 pulsadores arcade (p. ej. Sanwa) + pull-down',
+      'Cajas/carcasa para cada extremo'
+    ],
+    tutorial: [
+      'Clona github.com/raidlman/1d-pong e instala FastLED en el Arduino IDE.',
+      'Alimenta la tira y el Arduino con la misma fuente 5V; une GND común.',
+      'Conecta CI/DI (APA102) a SPI o DATA (WS2812) al pin definido en el sketch; botones a los pines con pull-down.',
+      'Ajusta NUM_LEDS y pines; sube el firmware y prueba golpes en ambos extremos.',
+      'Monta los botones en extremos opuestos de la tira para jugar de pie o en mesa.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/raidlman/1d-pong' },
+      { label: 'Variante Pong', url: 'https://github.com/janhildebrand/LED-STRIP-PongGame' },
+      { label: 'FastLED', url: 'https://github.com/FastLED/FastLED' }
+    ]
+  },
+  {
+    id: 'led-pong-nano',
+    name: 'LED Strip Pong (Nano)',
+    icon: '🎮',
+    category: 'Juegos LED',
+    boards: ['Arduino Nano'],
+    description: 'Pong 1D a dos jugadores con zona verde de golpe: si pulsas demasiado pronto o tarde pierdes una vida. Entre partidas la tira hace un lightshow. Ideal si ya tienes Nano + WS2812 + 2 botones.',
+    materials: [
+      'Arduino Nano (con 2 pines de interrupción)',
+      'Tira WS2812B (u otra compatible FastLED)',
+      'Fuente 5V adecuada al nº de LEDs',
+      '2 pulsadores + resistencias pull-down',
+      'Resistencia ~330 Ω en la línea de datos'
+    ],
+    tutorial: [
+      'Abre el repo janhildebrand/LED-STRIP-PongGame e instala FastLED.',
+      'Conecta los botones a pines de interrupción del Nano (p. ej. D2/D3) con pull-down.',
+      'Define el tipo de tira y NUM_LEDS en el código; DATA al pin configurado.',
+      'Sube el sketch: en idle verás efectos; al pulsar empieza la partida.',
+      'Ajusta el tamaño de la zona de golpe y la velocidad inicial si quieres más dificultad.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/janhildebrand/LED-STRIP-PongGame' },
+      { label: '1D Pong kitesurfer', url: 'https://github.com/kitesurfer1404/Arduino_1DPong' }
+    ]
+  },
+  {
+    id: 'led-pixel-shooter',
+    name: 'LED Pixel Shooter',
+    icon: '🚀',
+    category: 'Juegos LED',
+    boards: ['Arduino Nano'],
+    description: 'Arcade en tira WS2812B: píxeles enemigos “caen” hacia tu base y disparas con botones de color (R/G/B) para destruirlos. Incluye niveles de dificultad y botón de level-up.',
+    materials: [
+      'Arduino Nano',
+      'Tira WS2812B (30–60 LEDs)',
+      '4 pulsadores (rojo, verde, azul, level-up)',
+      'Resistencia 220–470 Ω en DATA',
+      'Fuente 5V (USB o externa si hay muchos LEDs)'
+    ],
+    tutorial: [
+      'Clona github.com/4aka/Arduino-LED-Game e instala FastLED.',
+      'Cablea DATA → D6 (vía resistencia); botones R/G/B/Level a D3/D2/D4/D5 hacia GND (INPUT_PULLUP).',
+      'Ajusta NUM_LEDS y brillo; sube el firmware al Nano.',
+      'Dispara el color correcto hacia los enemigos; cada 50 aciertos sube el nivel (o usa el botón).',
+      'Si la tira parpadea en blanco al subir de nivel, la alimentación es correcta; si se reinicia, usa fuente externa.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/4aka/Arduino-LED-Game' }
+    ]
+  },
+  {
+    id: 'twang',
+    name: 'TWANG',
+    icon: '🗡️',
+    category: 'Juegos LED',
+    boards: ['Arduino Mega', 'Arduino Nano'],
+    description: 'Dungeon crawler 1D en tira LED (inspirado en Line Wobbler): mueves al héroe inclinando un acelerómetro MPU6050, esquivas enemigos y llegas a la salida. El juego open source de tira LED más icónico.',
+    materials: [
+      'Arduino Mega o Nano',
+      'Tira APA102 o WS2812 (60–450+ LEDs; más = mejor)',
+      'MPU6050 (GY-521)',
+      'Fuente 5V potente (calcula ~40–60 mA/LED a brillo alto)',
+      'Opcional: altavoz/buzzer, LEDs de vidas, tope de puerta para “wobble”'
+    ],
+    tutorial: [
+      'Clona github.com/Critters/TWANG (o el fork bdring/TWANG) e instala FastLED, MPU6050, RunningMedian, ToneAC.',
+      'En setup() elige APA102 o descomenta la línea WS2812/NeoPixel según tu tira.',
+      'Configura NUM_LEDS, DATA_PIN, brillo y DIRECTION; conecta el MPU6050 por I2C.',
+      'Monta el acelerómetro en un joystick/asa: inclinar mueve al jugador sobre la tira.',
+      'Empieza con pocos LEDs y brillo bajo; luego alarga la tira cuando el juego vaya fluido.'
+    ],
+    references: [
+      { label: 'GitHub Critters', url: 'https://github.com/Critters/TWANG' },
+      { label: 'Fork bdring', url: 'https://github.com/bdring/TWANG' },
+      { label: 'Guía de montaje', url: 'https://jasongraphix.com/journal/twang-building-an-arduino-based-led-strip-game/' }
+    ]
+  },
+  {
+    id: 'twang32',
+    name: 'TWANG32',
+    icon: '⚔️',
+    category: 'Juegos LED',
+    boards: ['ESP32'],
+    description: 'Puerto de TWANG a ESP32: mismo dungeon crawler 1D en tira LED, con más potencia de CPU para tiras largas (hasta cientos/miles de LEDs). Perfecto si ya usas ESP32 en ArduinoForge.',
+    materials: [
+      'ESP32 (NodeMCU-32S u similar)',
+      'Tira WS2812B / NeoPixel / APA102',
+      'MPU6050',
+      'Fuente 5V externa + GND común (no alimentes tiras largas solo por USB)',
+      'Level shifter 3.3→5 V en DATA si la tira no responde bien'
+    ],
+    tutorial: [
+      'Clona github.com/bdring/TWANG32 e instala FastLED + RunningMedian en el IDE con soporte ESP32.',
+      'Ajusta pines de datos/reloj, NUM_LEDS y tipo de LED en la config del sketch.',
+      'Conecta MPU6050 a SDA/SCL del ESP32 (suele 21/22); alimenta la tira a 5V externos.',
+      'Sube el firmware, calibra el centro del acelerómetro y prueba un nivel corto.',
+      'Sube brillo y longitud de tira poco a poco midiendo consumo de la fuente.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/bdring/TWANG32' },
+      { label: 'TWANG original', url: 'https://github.com/Critters/TWANG' }
+    ]
+  },
+  {
+    id: 'simon-fastled',
+    name: 'Simon Game (FastLED)',
+    icon: '🧠',
+    category: 'Juegos LED',
+    boards: ['Arduino Uno', 'Arduino Nano'],
+    description: 'Simon clásico de memoria con secuencia de colores: NeoPixel/FastLED, pulsadores, buzzer y a menudo OLED. Repite la secuencia cada vez más larga; hay variantes con LCD y varios modos.',
+    materials: [
+      'Arduino Uno / Nano',
+      'Tira o anillo NeoPixel / WS2812 (o 4 LEDs de color)',
+      '4 pulsadores de colores',
+      'Buzzer piezoeléctrico',
+      'Opcional: OLED SSD1306 o LCD 16x2 I2C'
+    ],
+    tutorial: [
+      'Elige un repo (Bogehaven/SimonGame con FastLED+OLED, o DucTriCE/SimonGame_Arduino con LCD y 3 modos).',
+      'Conecta 4 botones + 4 zonas/LEDs de color; el buzzer a un pin PWM digital.',
+      'Instala FastLED (y Adafruit SSD1306/GFX o LiquidCrystal_I2C si aplica) y sube el sketch.',
+      'Memoriza la secuencia iluminada y repítela con los botones; al fallar reinicia.',
+      'Ajusta tiempos de show/input para niños (más lento) o modo hardcore (más rápido).'
+    ],
+    references: [
+      { label: 'Simon + FastLED/OLED', url: 'https://github.com/Bogehaven/SimonGame' },
+      { label: 'Simon 3 modos', url: 'https://github.com/DucTriCE/SimonGame_Arduino' },
+      { label: 'Simon matriz', url: 'https://github.com/dragosrose/SimonSaysUNO' }
+    ]
+  },
+  {
+    id: 'led-territory',
+    name: 'LED Matrix Territory',
+    icon: '🗺️',
+    category: 'Juegos LED',
+    boards: ['Arduino Uno', 'Arduino Nano'],
+    description: 'Juego a 2 jugadores en matriz 16×16 WS2812B: cada uno pinta territorio con un joystick; gana quien controle más casillas al acabar el tiempo. Incluye visor web por USB (Web Serial).',
+    materials: [
+      'Arduino Uno/Nano',
+      'Matriz 16×16 WS2812B (256 LEDs)',
+      '2 joysticks analógicos con botón',
+      'Fuente 5V robusta (≥3–5 A recomendado)',
+      'PC con Chrome para el live viewer opcional'
+    ],
+    tutorial: [
+      'Clona github.com/Joao14m/Snake (LED Matrix Territory) e instala FastLED.',
+      'Conecta DATA de la matriz, joysticks a A0–A3 y botones a D2/D3 (PULLUP).',
+      'Configura WIDTH/HEIGHT/SERPENTINE según el cableado de tu panel.',
+      'Al arrancar deja los sticks centrados un segundo para calibrar.',
+      'Opcional: abre el viewer HTML por Web Serial para ver la partida en el PC.'
+    ],
+    references: [
+      { label: 'GitHub', url: 'https://github.com/Joao14m/Snake' },
+      { label: 'FastLED', url: 'https://fastled.io/' }
+    ]
   }
 ];
 
