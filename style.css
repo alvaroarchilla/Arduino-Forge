@@ -295,6 +295,12 @@ header {
   display: none;
 }
 
+.section-hint-static {
+  font-style: normal;
+  border-left-color: var(--accent-blue);
+  color: var(--text-secondary);
+}
+
 /* --- Project Name Input --- */
 .project-name-wrapper {
   position: relative;

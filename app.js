@@ -2897,6 +2897,24 @@ function toggleComponent(componentId) {
   hideOutput();
 }
 
+const FUNCTION_CONFLICTS = {
+  'display-sensors': ['toggle-display'],
+  'toggle-display': ['display-sensors', 'button-debounce', 'relay-toggle-button'],
+  'button-debounce': ['toggle-display', 'relay-toggle-button'],
+  'relay-toggle-button': ['toggle-display', 'button-debounce', 'relay-control', 'relay-timed', 'thermostat', 'motion-relay'],
+  'relay-control': ['relay-toggle-button', 'relay-timed', 'thermostat', 'motion-relay'],
+  'relay-timed': ['relay-control', 'relay-toggle-button', 'thermostat', 'motion-relay'],
+  'thermostat': ['relay-control', 'relay-timed', 'relay-toggle-button', 'motion-relay'],
+  'motion-relay': ['relay-control', 'relay-timed', 'relay-toggle-button', 'thermostat'],
+  'servo-sweep': ['servo-serial'],
+  'servo-serial': ['servo-sweep'],
+  'ws2812-rainbow': ['ws2812-solid', 'motion-light'],
+  'ws2812-solid': ['ws2812-rainbow', 'motion-light'],
+  'motion-light': ['ws2812-rainbow', 'ws2812-solid'],
+  'pump-timed': ['auto-irrigation'],
+  'auto-irrigation': ['pump-timed']
+};
+
 function toggleFunction(functionId) {
   const idx = state.selectedFunctions.indexOf(functionId);
   const conflicts = FUNCTION_CONFLICTS[functionId] || [];
