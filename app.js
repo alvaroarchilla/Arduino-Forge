@@ -310,9 +310,9 @@ const COMPONENTS = {
         { component: 'SCL', board: '{SCL}' }
       ],
       notes: [
-        'El AHT10 funciona a 3.3V y 5V.',
-        'Dirección I2C por defecto: 0x38.',
-        'Si usas otro sensor I2C con dirección 0x38, habrá conflicto.'
+        'El módulo habitual acepta 3.3V y 5V y ya trae resistencias de pull-up en SDA y SCL.',
+        'Dirección fija 0x38. No lo combines con un AHT20 ni con otro dispositivo en esa dirección.',
+        'Cables I2C cortos (idealmente menos de 30 cm). Si no responde, ejecuta el escáner I2C.'
       ]
     }
   },
@@ -344,9 +344,9 @@ const COMPONENTS = {
         { component: 'SCL', board: '{SCL}' }
       ],
       notes: [
-        'El AHT20 es compatible en voltaje con 3.3V y 5V.',
-        'Dirección I2C: 0x38 (misma que AHT10, no usar ambos a la vez).',
-        'Mayor precisión que AHT10: ±0.3°C para temperatura, ±2% para humedad.'
+        'Acepta 3.3V y 5V. Precisión típica ±0.3 °C y ±2 % de humedad, mejor que el AHT10.',
+        'Misma dirección I2C que el AHT10 (0x38): no conectes ambos a la vez.',
+        'El módulo suele incluir pull-ups. Si el chip va suelto, pon 4.7 kΩ de SDA y de SCL a 3.3V.'
       ]
     }
   },
@@ -387,7 +387,7 @@ const COMPONENTS = {
       notes: [
         '¡IMPORTANTE! El BMP280 funciona solo a 3.3V. No conectar a 5V directamente.',
         'Si usas Arduino Uno (5V), necesitas un módulo con regulador integrado (la mayoría lo traen).',
-        'Pin CSB a VCC y SDO a GND configuran modo I2C con dirección 0x76.',
+        'Pin CSB a VCC y SDO a GND configuran modo I2C con dirección 0x76. No lo combines con un BME280.',
         'La altitud calculada es aproximada y depende de la presión a nivel del mar local (1013.25 hPa por defecto).'
       ]
     }
@@ -420,11 +420,11 @@ const COMPONENTS = {
         { component: 'SCL', board: '{SCL}' }
       ],
       notes: [
-        'El MPU9250 opera a 3.3V. Si usas Arduino Uno, necesitas conversor de nivel lógico.',
-        'Dirección I2C: 0x68 (AD0 a GND) ó 0x69 (AD0 a VCC).',
-        'El magnetómetro interno (AK8963) tiene dirección 0x0C.',
-        'Para calibrar el magnetómetro, gira el sensor en forma de 8 durante unos segundos.',
-        'Si usas el módulo GY-91, también incluye el BMP280 integrado.'
+        'El chip va a 3.3V. En Arduino Uno usa un módulo con regulador o un conversor de nivel en SDA/SCL.',
+        'AD0 a GND = 0x68; AD0 a VCC = 0x69. El magnetómetro interno (AK8963) usa 0x0C.',
+        'Muchos módulos baratos marcados como MPU9250 son un MPU6500 sin magnetómetro. Si el eje mag no cambia, el chip no es un 9250.',
+        'Calibra el magnetómetro moviendo el sensor en forma de 8.',
+        'El GY-91 lleva un BMP280 en 0x76: no añadas otro BMP280 o BME280 en esa dirección.'
       ]
     }
   },
@@ -452,10 +452,10 @@ const COMPONENTS = {
         { component: 'Terminal 2', board: 'GND' }
       ],
       notes: [
-        'Se usa la resistencia pull-up interna del microcontrolador (INPUT_PULLUP).',
-        'No necesita resistencia externa.',
-        'El botón lee LOW cuando está pulsado y HIGH cuando no.',
-        'Para evitar lecturas falsas por rebote, usa debounce (incluido en las funciones recomendadas).'
+        'Un terminal al GPIO y el otro a GND. La pull-up es interna: pulsado = LOW, suelto = HIGH.',
+        'No hace falta resistencia externa.',
+        'En ESP8266 no uses GPIO0 ni GPIO2 si el botón puede quedar pulsado al encender: la placa no arranca.',
+        'Sin debounce un solo clic se cuenta varias veces. Activa una función de botón recomendada.'
       ]
     }
   },
@@ -500,11 +500,10 @@ const COMPONENTS = {
         { component: 'SCL', board: '{SCL}' }
       ],
       notes: [
-        'La mayoría de módulos OLED SSD1306 aceptan 3.3V y 5V.',
-        'Dirección I2C más común: 0x3C. Algunos módulos usan 0x3D.',
-        'Si la pantalla no muestra nada, prueba cambiar la dirección en el código.',
-        'Resolución: 128×64 píxeles. Cada carácter con textSize(1) ocupa 6×8 píxeles.',
-        'Puedes mostrar aprox. 21 caracteres por línea y 8 líneas con textSize(1).'
+        'El módulo de 0.96" suele aceptar 3.3V y 5V y trae pull-ups I2C.',
+        'Dirección más común: 0x3C. Si se queda en negro, cambia 0x3C por 0x3D en el código.',
+        'Comparte SDA y SCL con el resto de sensores I2C.',
+        '128×64: con textSize(1) caben unas 21 columnas y 8 filas. Con varios sensores usa la función de alternar pantallas.'
       ]
     }
   },
@@ -537,12 +536,11 @@ const COMPONENTS = {
         { component: 'NC', board: 'Normal Cerrado (carga)' }
       ],
       notes: [
-        '⚠ ¡PRECAUCIÓN! El relé puede controlar voltajes peligrosos (220V/110V AC). Extrema la seguridad.',
-        'La mayoría de módulos relé usan lógica invertida: LOW = activado, HIGH = desactivado.',
-        'Terminales NO (Normally Open): la carga se enciende al activar el relé.',
-        'Terminales NC (Normally Closed): la carga se apaga al activar el relé.',
-        'Si la placa opera a 3.3V (ESP32, ESP8266), verifica que el módulo relé sea compatible con 3.3V lógico.',
-        'Alimenta el relé con 5V desde una fuente externa si la placa no suministra suficiente corriente.'
+        'La bobina del módulo va a 5V. El GPIO solo entra en IN. Si el módulo trae jumper JD-VCC, quítalo y alimenta la bobina aparte para aislar la placa de la carga.',
+        'Casi todos conmutan al revés: LOW enciende el relé y HIGH lo apaga. El código generado ya usa esa lógica.',
+        'NO cierra el circuito al activar; NC lo abre. COM es el común de la carga.',
+        'En ESP32 y ESP8266 un relé de 5V a veces no dispara con 3.3V en IN. Usa un módulo compatible con 3.3V.',
+        'Puede conmutar 110/230 V. No trabajes con red eléctrica si no tienes práctica, y no alimentes la carga desde la placa.'
       ]
     }
   },
@@ -576,9 +574,10 @@ const COMPONENTS = {
         { component: 'SCL', board: '{SCL}' }
       ],
       notes: [
-        'El BME280 opera a 3.3V. Usa un módulo con regulador si alimentas desde 5V.',
-        'Dirección I2C habitual: 0x76 (SDO a GND) o 0x77 (SDO a VCC).',
-        'No uses BME280 y BMP280 a la vez: suelen compartir la misma dirección.'
+        'El chip es de 3.3V. En Arduino Uno usa un módulo con regulador.',
+        'SDO a GND = 0x76; SDO a 3.3V = 0x77. No lo combines con un BMP280.',
+        'En módulos de 6 pines, CSB debe ir a VCC para forzar el modo I2C.',
+        'Algunos módulos vendidos como BME280 son en realidad BMP280 y no miden humedad. Si la humedad sale NaN, revisa el chip.'
       ]
     }
   },
@@ -607,9 +606,10 @@ const COMPONENTS = {
         { component: 'DATA', board: '{DHT_PIN}' }
       ],
       notes: [
-        'Si el módulo no trae resistencia pull-up, añade 4.7kΩ–10kΩ entre DATA y VCC.',
-        'Lecturas cada ≥1–2 s; lecturas más rápidas pueden fallar.',
-        'Precisión limitada (±2 °C / ±5 %RH). Para más precisión usa AHT20 o BME280.'
+        'El módulo de 3 pines suele traer la pull-up. El sensor suelto necesita 4.7–10 kΩ entre DATA y VCC.',
+        'No lo leas más de una vez cada 2 s: si no, devuelve NaN.',
+        'Va mejor a 5V. La precisión es justa (±2 °C / ±5 %HR); para más detalle usa AHT20 o BME280.',
+        'Evita GPIO0 y GPIO2 en ESP8266: si DATA está en LOW al encender, la placa no arranca.'
       ]
     }
   },
@@ -641,9 +641,10 @@ const COMPONENTS = {
         { component: 'DATA (amarillo)', board: '{DS18_PIN}' }
       ],
       notes: [
-        'Requiere resistencia pull-up de 4.7kΩ entre DATA y VCC.',
-        'Puedes conectar varias sondas en el mismo bus OneWire.',
-        'Rango típico: -55 °C a +125 °C.'
+        'Hace falta una resistencia de 4.7 kΩ entre DATA y VCC. Sin ella el bus 1-Wire no responde.',
+        'Este código usa alimentación normal de 3 hilos, no el modo parásito de 2 hilos.',
+        'En la sonda impermeable lo habitual es rojo = VCC, negro = GND y amarillo o blanco = DATA. Confírmalo con tu vendedor.',
+        'Puedes poner varias sondas en el mismo pin. El sketch lee solo la primera (índice 0).'
       ]
     }
   },
@@ -678,9 +679,10 @@ const COMPONENTS = {
         { component: 'ECHO', board: '{ECHO_PIN}' }
       ],
       notes: [
-        'El HC-SR04 se alimenta a 5V. En ESP32/ESP8266, ECHO a 5V puede dañar el GPIO: usa divisor resistivo o módulo 3.3V.',
-        'Para exteriores/agua considera el JSN-SR04T (impermeable, mismo principio).',
-        'Evita superficies blandas o anguladas: la medición puede fallar.'
+        'VCC a 5V. TRIG acepta 3.3V, pero ECHO sale a 5V. En ESP32/ESP8266 pon un divisor: 1 kΩ de ECHO al GPIO y 2 kΩ de ese GPIO a GND.',
+        'Rango útil aproximado: 2–400 cm. Las superficies blandas o muy inclinadas no devuelven eco.',
+        'El JSN-SR04T es la versión impermeable y se cablea igual (TRIG/ECHO).',
+        'La medida bloquea el programa unos milisegundos. No la lances dentro de una rutina con tiempos muy justos.'
       ]
     }
   },
@@ -709,9 +711,10 @@ const COMPONENTS = {
         { component: 'OUT', board: '{PIR_PIN}' }
       ],
       notes: [
-        'Tras alimentar, espera 30–60 s de estabilización.',
-        'Potenciómetros: sensibilidad y tiempo de retención (retardo).',
-        'Jumper H/L: modo retrigger (H) o single trigger (L).'
+        'El HC-SR501 se alimenta a 5V y su salida HIGH ronda 3.3V, así que es compatible con ESP. El AM312, más pequeño, va a 3.3V.',
+        'Al dar corriente espera 30–60 s: durante el arranque dispara en falso.',
+        'Un potenciómetro ajusta la sensibilidad y el otro cuánto tiempo permanece OUT en HIGH. El jumper H re-dispara; L dispara una sola vez.',
+        'No lo apuntes al sol, a un radiador ni a una corriente de aire caliente.'
       ]
     }
   },
@@ -739,9 +742,11 @@ const COMPONENTS = {
         { component: 'A0 / AO', board: '{SOIL_PIN}' }
       ],
       notes: [
-        'Valores altos suelen indicar suelo seco (depende del módulo; calibra).',
-        'La sonda capacitiva dura más que la resistiva sumergida.',
-        'En ESP8266 solo hay A0 (0–1 V). En ESP32 usa ADC (p.ej. GPIO34).'
+        'Anota el valor en seco y en agua y ajusta los umbrales del código: cada módulo y cada suelo leen distinto.',
+        'Las sondas resistivas se corroen en la tierra. Una capacitiva dura más y no electroliza el suelo.',
+        'En ESP8266, A0 solo admite 0–1 V. No conectes una salida de 3.3V directa.',
+        'En ESP32 usa un pin ADC1 (GPIO32–39). El ADC2 deja de medir en cuanto el WiFi está encendido.',
+        'En placas con un solo ADC (NodeMCU) no lo combines con el micrófono.'
       ]
     }
   },
@@ -769,9 +774,11 @@ const COMPONENTS = {
         { component: 'OUT', board: '{MIC_PIN}' }
       ],
       notes: [
-        'Ajusta la ganancia con el potenciómetro del módulo.',
-        'La salida es centrada en VCC/2: mide amplitud (pico/RMS) para nivel de sonido.',
-        'En NodeMCU comparte A0 con otros sensores analógicos.'
+        'Aliméntalo a 3.3V si la placa es ESP. A 5V la salida puede superar el máximo del GPIO.',
+        'En el ESP8266, A0 solo aguanta 0–1 V: no conectes OUT directo si el módulo sale a 1.65V o más.',
+        'La señal está centrada en VCC/2. El código mide el pico respecto a ese centro, no un valor absoluto.',
+        'Sube la ganancia hasta que el número cambie al hablar, sin quedarse clavado en el máximo del ADC.',
+        'En NodeMCU comparte el único ADC con cualquier otro sensor analógico.'
       ]
     }
   },
@@ -801,9 +808,10 @@ const COMPONENTS = {
         { component: 'Signal (naranja/amarillo)', board: '{SERVO_PIN}' }
       ],
       notes: [
-        'No alimentes varios servos solo desde el USB de la placa: usa fuente externa y GND común.',
-        'En ESP32 instala la librería ESP32Servo (API compatible con Servo.h).',
-        'FS90R es de rotación continua: write(0/180) velocidad, write(90) paro.'
+        'Alimenta el servo a 5V externos siempre que puedas, y une su GND con el de la placa.',
+        'Un SG90 puede pedir 500–700 mA si se bloquea. El puerto USB no da para varios servos.',
+        'En ESP32 instala la librería ESP32Servo: la API es la misma que Servo.h.',
+        'El FS90R gira sin fin: 90 es paro y 0/180 son velocidad, no un ángulo.'
       ]
     }
   },
@@ -837,9 +845,10 @@ const COMPONENTS = {
         { component: 'DIN / DATA', board: '{LED_PIN}' }
       ],
       notes: [
-        'Calcula ~60 mA por LED a brillo máximo. Usa fuente externa para tiras largas.',
-        'Condensador ~1000 µF en la alimentación de la tira ayuda a estabilizar.',
-        'En ESP32/ESP8266 el nivel lógico 3.3V suele funcionar; si no, level shifter.'
+        '5V en VCC, GND común con la placa y DIN (no DOUT) al GPIO, con una resistencia de 330 Ω en serie.',
+        'Un condensador de 470–1000 µF entre 5V y GND de la tira evita que la placa se reinicie al encender.',
+        'Cuenta unos 60 mA por LED a brillo máximo. El código arranca al 16 % de brillo para no tumbar la fuente.',
+        'Un GPIO de 3.3V a veces no excita bien el primer LED. Si los colores salen mal, añade un level shifter (74HCT125).'
       ]
     }
   },
@@ -870,9 +879,9 @@ const COMPONENTS = {
         { component: 'GND', board: 'GND común placa + fuente' }
       ],
       notes: [
-        'Nunca conectes la bomba directamente a un GPIO: consume demasiada corriente.',
-        'Usa MOSFET (IRLZ44N, etc.) o módulo relé. Diodo flyback si el driver no lo incluye.',
-        'Fuente 5V dedicada recomendada; comparte GND con la placa.'
+        'No conectes la bomba a un GPIO. Usa un MOSFET de nivel lógico (IRLZ44N, no IRF540) o un relé, con GND común.',
+        'El código enciende la bomba con HIGH. Un módulo relé de lógica invertida quedaría al revés: en ese caso usa el MOSFET o invierte el digitalWrite.',
+        'Si el driver no trae diodo, pon uno en antiparalelo con la bomba. Alimenta la bomba con una fuente de 5V aparte.'
       ]
     }
   },
@@ -902,7 +911,7 @@ const COMPONENTS = {
         'El MB102 se conecta directamente sobre los raíles de la protoboard.',
         'Tiene dos canales independientes: cada uno configurable a 3.3V o 5V con jumpers.',
         'Entrada: 6.5V–12V DC (barrel jack) o USB (solo 5V).',
-        'Corriente máxima: ~700mA total. Para relés o motores puede ser insuficiente.',
+        'Corriente realista: unos 500–700 mA. No alimentes servos, tiras largas ni bombas desde aquí.',
         '¡Verifica la polaridad! Algunos clones tienen las marcas + y − invertidas.',
         'No requiere código: es un módulo de hardware puro para alimentación.'
       ]
@@ -989,7 +998,7 @@ void leerOrientacion() {
     id: 'display-sensors',
     name: 'Mostrar Datos en Pantalla OLED',
     icon: '📺',
-    description: 'Muestra las lecturas de sensores en la pantalla OLED',
+    description: 'Muestra lecturas en la OLED. Con varios sensores se llena: usa Alternar pantallas',
     requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20', 'hc-sr04', 'soil-moisture'],
     requiresAll: ['oled-ssd1306'],
     generateCode: (selComp) => {
@@ -1159,7 +1168,7 @@ bool leerBoton() {
     name: 'Alternar Pantallas con Botón',
     icon: '🔄',
     description: 'Usa el botón para cambiar entre pantallas de datos en el OLED',
-    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20'],
+    requiresAny: ['aht10', 'aht20', 'bmp280', 'bme280', 'mpu9250', 'dht11', 'ds18b20', 'hc-sr04', 'soil-moisture'],
     requiresAll: ['button', 'oled-ssd1306'],
     generateCode: (selComp) => {
       let modes = [];
@@ -1255,6 +1264,29 @@ bool leerBoton() {
         caseCode += `      display.println(F(" C"));\n`;
         caseCode += `      break;\n`;
         modes.push('DS18B20');
+      }
+
+      if (selComp.includes('hc-sr04')) {
+        caseCode += `    case ${modes.length}:\n`;
+        caseCode += `      digitalWrite(PIN_TRIG, LOW); delayMicroseconds(2);\n`;
+        caseCode += `      digitalWrite(PIN_TRIG, HIGH); delayMicroseconds(10);\n`;
+        caseCode += `      digitalWrite(PIN_TRIG, LOW);\n`;
+        caseCode += `      display.println(F("== Distancia =="));\n`;
+        caseCode += `      display.println();\n`;
+        caseCode += `      display.print(pulseIn(PIN_ECHO, HIGH, 30000UL) * 0.01715, 1);\n`;
+        caseCode += `      display.println(F(" cm"));\n`;
+        caseCode += `      break;\n`;
+        modes.push('Distancia');
+      }
+
+      if (selComp.includes('soil-moisture')) {
+        caseCode += `    case ${modes.length}:\n`;
+        caseCode += `      display.println(F("== Suelo =="));\n`;
+        caseCode += `      display.println();\n`;
+        caseCode += `      display.print(F("Raw: "));\n`;
+        caseCode += `      display.println(analogRead(PIN_SUELO));\n`;
+        caseCode += `      break;\n`;
+        modes.push('Suelo');
       }
 
       const totalModes = modes.length || 1;
@@ -1405,36 +1437,10 @@ ${dataPrints.join('\n')}
     loopCall: 'registrarDatosCSV();'
   },
   {
-    id: 'temp-alert',
-    name: 'Alerta de Temperatura',
-    icon: '🔔',
-    description: 'Avisa por serie cuando la temperatura supera un umbral configurable',
-    requiresAny: ['aht10', 'aht20'],
-    requiresAll: [],
-    generateCode: () =>
-`// ─── Función: Alerta de Temperatura ───
-const float TEMP_UMBRAL = 30.0;  // °C — Modifica este valor según tu proyecto
-
-void alertaTemperatura() {
-  sensors_event_t humidity, temp;
-  aht.getEvent(&humidity, &temp);
-
-  if (temp.temperature > TEMP_UMBRAL) {
-    Serial.println(F("⚠ ¡ALERTA! Temperatura alta:"));
-    Serial.print(F("  Actual: "));
-    Serial.print(temp.temperature);
-    Serial.print(F(" °C (Umbral: "));
-    Serial.print(TEMP_UMBRAL);
-    Serial.println(F(" °C)"));
-  }
-}`,
-    loopCall: 'alertaTemperatura();'
-  },
-  {
     id: 'relay-control',
     name: 'Control de Relé por Serie',
     icon: '🔌',
-    description: 'Activa/desactiva el relé enviando comandos por el monitor serie',
+    description: 'Activa con 1, apaga con 0 y consulta con ? por el monitor serie',
     requiresAny: ['relay'],
     requiresAll: [],
     runEveryLoop: true,
@@ -1503,7 +1509,7 @@ void toggleReleConBoton() {
     id: 'relay-timed',
     name: 'Relé Temporizado',
     icon: '⏱️',
-    description: 'Activa el relé durante un tiempo configurable cuando se envía comando',
+    description: 'Envía t por el monitor serie para encender el relé durante unos segundos',
     requiresAny: ['relay'],
     requiresAll: [],
     runEveryLoop: true,
@@ -1670,66 +1676,69 @@ void detectarMovimiento() {
     description: 'Lee el valor analógico del sensor de humedad de suelo',
     requiresAny: ['soil-moisture'],
     requiresAll: [],
-    generateCode: () =>
-`// ─── Función: Leer Humedad de Suelo ───
+    generateCode: (selComp, board) => {
+      const cal = adcCalibration(board);
+      return `// ─── Función: Leer Humedad de Suelo ───
 void leerHumedadSuelo() {
   int raw = analogRead(PIN_SUELO);
-  // Calibra estos extremos según tu sensor y suelo
-  const int SECO = 3500;
-  const int HUMEDO = 1500;
-  int pct = map(constrain(raw, HUMEDO, SECO), SECO, HUMEDO, 0, 100);
+  // ${cal.label}. Mide en seco y en agua y corrige SECO / HUMEDO.
+  const int SECO = ${cal.dry};
+  const int HUMEDO = ${cal.wet};
+  int pct = map(constrain(raw, min(HUMEDO, SECO), max(HUMEDO, SECO)), SECO, HUMEDO, 0, 100);
 
   Serial.print(F("Suelo raw: "));
   Serial.print(raw);
   Serial.print(F("  ≈ "));
   Serial.print(pct);
   Serial.println(F(" % humedad"));
-}`,
+}`;
+    },
     loopCall: 'leerHumedadSuelo();'
   },
   {
     id: 'serial-mic',
     name: 'Nivel de Sonido (MAX4466)',
     icon: '🎤',
-    description: 'Estima el nivel de sonido midiendo picos en la señal del micrófono',
+    description: 'Mide el pico de sonido respecto al centro del ADC de tu placa',
     requiresAny: ['max4466'],
     requiresAll: [],
-    generateCode: () =>
-`// ─── Función: Nivel de Sonido ───
+    generateCode: (selComp, board) => {
+      const cal = adcCalibration(board);
+      return `// ─── Función: Nivel de Sonido ───
 void leerNivelSonido() {
   int pico = 0;
+  const int CENTRO = ${cal.center}; // ${cal.label}
   unsigned long t0 = millis();
   while (millis() - t0 < 50) {
-    int v = analogRead(PIN_MIC);
-    int desv = abs(v - 2048); // ajusta al centro ADC de tu placa
+    int desv = abs(analogRead(PIN_MIC) - CENTRO);
     if (desv > pico) pico = desv;
   }
   Serial.print(F("Nivel sonido (pico): "));
   Serial.println(pico);
-}`,
+}`;
+    },
     loopCall: 'leerNivelSonido();'
   },
   {
     id: 'servo-sweep',
     name: 'Barrido de Servo',
     icon: '🦾',
-    description: 'Mueve el servo de 0° a 180° y vuelta de forma suave',
+    description: 'Barrido suave 0–180°. En un FS90R eso es velocidad, no posición',
     requiresAny: ['sg90'],
     requiresAll: [],
+    runEveryLoop: true,
     generateCode: () =>
 `// ─── Función: Barrido de Servo ───
 void barridoServo() {
   static int angulo = 0;
-  static int paso = 5;
+  static int paso = 2;
+  static unsigned long ultimo = 0;
+  if (millis() - ultimo < 20) return;
+  ultimo = millis();
 
-  servoMotor.write(angulo);
   angulo += paso;
-  if (angulo >= 180 || angulo <= 0) {
-    paso = -paso;
-  }
-  Serial.print(F("Servo: "));
-  Serial.print(angulo);
-  Serial.println(F("°"));
+  if (angulo >= 180 || angulo <= 0) paso = -paso;
+  servoMotor.write(constrain(angulo, 0, 180));
 }`,
     loopCall: 'barridoServo();'
   },
@@ -1737,7 +1746,7 @@ void barridoServo() {
     id: 'servo-serial',
     name: 'Servo por Comando Serie',
     icon: '🎛️',
-    description: 'Envía un ángulo 0–180 por el monitor serie para posicionar el servo',
+    description: 'Escribe un ángulo de 0 a 180 en el monitor serie y pulsa Enter',
     requiresAny: ['sg90'],
     requiresAll: [],
     runEveryLoop: true,
@@ -1762,6 +1771,7 @@ void controlarServoPorSerie() {
     description: 'Efecto arcoíris simple en la tira WS2812',
     requiresAny: ['ws2812'],
     requiresAll: [],
+    runEveryLoop: true,
     generateCode: () =>
 `// ─── Función: Arcoíris WS2812 ───
 uint32_t colorRueda(byte pos) {
@@ -1777,6 +1787,9 @@ uint32_t colorRueda(byte pos) {
 
 void efectoArcoiris() {
   static uint16_t j = 0;
+  static unsigned long ultimo = 0;
+  if (millis() - ultimo < 30) return;
+  ultimo = millis();
   for (uint16_t i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, colorRueda((i * 256 / strip.numPixels() + j) & 255));
   }
@@ -1840,12 +1853,13 @@ void bombaTemporizar() {
     id: 'auto-irrigation',
     name: 'Riego Automático',
     icon: '🌿',
-    description: 'Enciende la bomba si el suelo está más seco que un umbral',
+    description: 'Riega unos segundos si el suelo supera el umbral de sequedad de tu placa',
     requiresAny: [],
     requiresAll: ['soil-moisture', 'water-pump'],
-    generateCode: () =>
-`// ─── Función: Riego Automático ───
-const int UMBRAL_SECO = 2500; // calibra según tu sensor
+    generateCode: (selComp, board) => {
+      const cal = adcCalibration(board);
+      return `// ─── Función: Riego Automático ───
+const int UMBRAL_SECO = ${cal.dry}; // ${cal.label}. Sube este valor si riega demasiado
 const unsigned long RIEGO_MS = 4000;
 
 void riegoAutomatico() {
@@ -1869,7 +1883,8 @@ void riegoAutomatico() {
     Serial.print(raw);
     Serial.println(F(")"));
   }
-}`,
+}`;
+    },
     loopCall: 'riegoAutomatico();'
   },
   {
@@ -1929,10 +1944,10 @@ void alertaProximidad() {
   },
   {
     id: 'temp-alert-multi',
-    name: 'Alerta de Temperatura (Multi)',
+    name: 'Alerta de Temperatura',
     icon: '🔔',
-    description: 'Alerta por serie si la temperatura supera el umbral (DHT/DS18/BME/AHT)',
-    requiresAny: ['aht10', 'aht20', 'dht11', 'ds18b20', 'bme280'],
+    description: 'Avisa por serie si la temperatura supera el umbral (AHT, BME, BMP, DHT o DS18)',
+    requiresAny: ['aht10', 'aht20', 'dht11', 'ds18b20', 'bme280', 'bmp280'],
     requiresAll: [],
     generateCode: (selComp) => {
       let body = '';
@@ -1940,6 +1955,8 @@ void alertaProximidad() {
         body += `  sensors_event_t humidity, temp;\n  aht.getEvent(&humidity, &temp);\n  float t = temp.temperature;\n`;
       } else if (selComp.includes('bme280')) {
         body += `  float t = bme.readTemperature();\n`;
+      } else if (selComp.includes('bmp280')) {
+        body += `  float t = bmp.readTemperature();\n`;
       } else if (selComp.includes('dht11')) {
         body += `  float t = dht.readTemperature();\n  if (isnan(t)) return;\n`;
       } else if (selComp.includes('ds18b20')) {
@@ -1959,6 +1976,82 @@ ${body}  if (t > TEMP_UMBRAL) {
 }`;
     },
     loopCall: 'alertaTemperaturaMulti();'
+  },
+  {
+    id: 'thermostat',
+    name: 'Termostato con Relé',
+    icon: '🌡️',
+    description: 'Enciende el relé si la temperatura supera el umbral y lo apaga al bajar',
+    requiresAny: ['aht10', 'aht20', 'bme280', 'bmp280', 'dht11', 'ds18b20'],
+    requiresAll: ['relay'],
+    generateCode: (selComp) => {
+      let read = '  float t = 0;\n';
+      if (selComp.includes('aht10') || selComp.includes('aht20')) {
+        read = '  sensors_event_t humidity, temp;\n  aht.getEvent(&humidity, &temp);\n  float t = temp.temperature;\n';
+      } else if (selComp.includes('bme280')) {
+        read = '  float t = bme.readTemperature();\n';
+      } else if (selComp.includes('bmp280')) {
+        read = '  float t = bmp.readTemperature();\n';
+      } else if (selComp.includes('dht11')) {
+        read = '  float t = dht.readTemperature();\n  if (isnan(t)) return;\n';
+      } else if (selComp.includes('ds18b20')) {
+        read = '  ds18.requestTemperatures();\n  float t = ds18.getTempCByIndex(0);\n  if (t == DEVICE_DISCONNECTED_C) return;\n';
+      }
+      return `// ─── Función: Termostato ───
+const float TEMP_ON = 28.0;   // enciende el relé por encima de este valor
+const float TEMP_OFF = 26.0;  // lo apaga por debajo (histéresis)
+
+void termostato() {
+${read}  if (t >= TEMP_ON) {
+    digitalWrite(PIN_RELE, LOW); // lógica invertida del módulo
+    Serial.print(F("Termostato ON "));
+    Serial.println(t);
+  } else if (t <= TEMP_OFF) {
+    digitalWrite(PIN_RELE, HIGH);
+    Serial.print(F("Termostato OFF "));
+    Serial.println(t);
+  }
+}`;
+    },
+    loopCall: 'termostato();'
+  },
+  {
+    id: 'motion-relay',
+    name: 'Relé por Movimiento',
+    icon: '👀',
+    description: 'Activa el relé mientras el PIR detecta movimiento y lo suelta al acabar',
+    requiresAny: [],
+    requiresAll: ['hc-sr501', 'relay'],
+    runEveryLoop: true,
+    generateCode: () =>
+`// ─── Función: Relé por Movimiento ───
+void relePorMovimiento() {
+  bool movimiento = digitalRead(PIN_PIR) == HIGH;
+  digitalWrite(PIN_RELE, movimiento ? LOW : HIGH);
+}`,
+    loopCall: 'relePorMovimiento();'
+  },
+  {
+    id: 'soil-dry-alert',
+    name: 'Aviso de Suelo Seco',
+    icon: '🏜️',
+    description: 'Avisa por serie cuando la lectura indica suelo más seco que el umbral',
+    requiresAny: ['soil-moisture'],
+    requiresAll: [],
+    generateCode: (selComp, board) => {
+      const cal = adcCalibration(board);
+      return `// ─── Función: Aviso de Suelo Seco ───
+const int UMBRAL_SECO = ${cal.dry}; // ${cal.label}
+
+void avisoSueloSeco() {
+  int raw = analogRead(PIN_SUELO);
+  if (raw > UMBRAL_SECO) {
+    Serial.print(F("Suelo seco: "));
+    Serial.println(raw);
+  }
+}`;
+    },
+    loopCall: 'avisoSueloSeco();'
   },
 
 ];
@@ -2806,9 +2899,18 @@ function toggleComponent(componentId) {
 
 function toggleFunction(functionId) {
   const idx = state.selectedFunctions.indexOf(functionId);
+  const conflicts = FUNCTION_CONFLICTS[functionId] || [];
 
   if (idx === -1) {
+    const dropped = state.selectedFunctions.filter(id => conflicts.includes(id));
+    state.selectedFunctions = state.selectedFunctions.filter(id => !conflicts.includes(id));
     state.selectedFunctions.push(functionId);
+    if (dropped.length) {
+      const names = dropped
+        .map(id => (FUNCTIONS.find(fn => fn.id === id) || {}).name)
+        .filter(Boolean);
+      if (names.length) showToast('Desmarcada: ' + names.join(', '));
+    }
   } else {
     state.selectedFunctions.splice(idx, 1);
   }
@@ -2844,6 +2946,17 @@ function updateGenerateButton() {
 }
 
 
+
+function adcCalibration(board) {
+  const chip = (board && board.chip) || '';
+  if (chip.includes('ESP8266') || chip.includes('ESP-01')) {
+    return { dry: 850, wet: 300, center: 512, label: 'ADC de 10 bits; A0 del ESP8266 admite como máximo 1 V' };
+  }
+  if (chip.includes('ATmega')) {
+    return { dry: 780, wet: 320, center: 512, label: 'ADC de 10 bits (0–1023)' };
+  }
+  return { dry: 3200, wet: 1400, center: 2048, label: 'ADC de 12 bits (0–4095)' };
+}
 
 function resolveWiringToken(board, value) {
   const tokens = {
@@ -3128,7 +3241,7 @@ function generateCode(board, projectName) {
       // Skip button-debounce if toggle-display is selected (it has its own)
       if (fn.id === 'button-debounce' && hasToggle) return;
 
-      code += fn.generateCode(selComp) + '\n\n';
+      code += fn.generateCode(selComp, board) + '\n\n';
     });
   }
 
@@ -3215,18 +3328,58 @@ function generateWiringDocs(board) {
     html += `<div class="warning-box">⚠️ En ESP-01S / ESP8266 Relay, los GPIO0 y GPIO2 son pines de arranque. Evita forzar estados bajos durante el encendido para no bloquear el arranque.</div>`;
   }
 
-  // Voltage warning
-  if (board.voltage === '3.3V') {
-    const has5vOnly = false; // All selected components work at 3.3V in our list
-    html += `<div class="info-box">ℹ️ Tu placa opera a <strong>3.3V</strong>. Los módulos seleccionados son compatibles, pero verifica siempre las especificaciones de tu módulo concreto.</div>`;
-  } else {
-    const has3v3Comp = state.selectedComponents.some(id =>
-      ['bmp280', 'bme280', 'mpu9250'].includes(id)
-    );
-    if (has3v3Comp) {
-      html += `<div class="warning-box">⚠️ Tu placa opera a <strong>5V</strong>, pero algunos sensores seleccionados (BMP280, MPU9250) trabajan a 3.3V. Usa módulos con regulador integrado o añade un conversor de nivel lógico.</div>`;
-    }
+  const pinGroups = {};
+  const missingPins = [];
+  state.selectedComponents.forEach(id => {
+    const comp = COMPONENTS[id];
+    (comp.pinDefines || []).forEach(def => {
+      const pin = board.pins[def.valueKey];
+      if (pin === null || pin === undefined || pin === '') {
+        missingPins.push(`${comp.name} (${def.name})`);
+        return;
+      }
+      const key = String(pin);
+      if (!pinGroups[key]) pinGroups[key] = [];
+      if (!pinGroups[key].includes(comp.name)) pinGroups[key].push(comp.name);
+    });
+  });
+
+  const sharedPins = Object.entries(pinGroups).filter(([, names]) => names.length > 1);
+  if (sharedPins.length) {
+    html += `<h3>⚠️ Pines compartidos</h3>`;
+    html += `<div class="warning-box">`;
+    sharedPins.forEach(([pin, names]) => {
+      html += `El pin <strong>${pin}</strong> lo usan ${names.join(' y ')}. Deja solo uno o cambia el #define en el código.<br>`;
+    });
+    html += `</div>`;
   }
+  if (missingPins.length) {
+    html += `<div class="warning-box">⚠️ Esta placa no tiene un pin recomendado para ${missingPins.join(', ')}. Ese componente no funcionará hasta que asignes el pin a mano.</div>`;
+  }
+
+  const is3v3 = String(board.voltage).includes('3.3');
+  const has = (id) => state.selectedComponents.includes(id);
+  const tips = [];
+  if (is3v3) {
+    if (has('hc-sr04')) tips.push('ECHO del HC-SR04 sale a 5 V. Divisor: 1 kΩ desde ECHO al GPIO y 2 kΩ desde el GPIO a GND.');
+    if (has('max4466')) tips.push('Alimenta el MAX4466 a 3.3 V. A 5 V la salida puede superar el máximo del GPIO.');
+    if (has('relay')) tips.push('Un relé de 5 V a veces no conmuta con un GPIO a 3.3 V. Comprueba que el módulo acepte ese nivel lógico.');
+    if (has('ws2812')) tips.push('Si el primer LED no responde, la señal de 3.3 V se queda corta: añade 330 Ω en serie y un level shifter.');
+    if ((has('soil-moisture') || has('max4466')) && (state.selectedBoard === 'nodemcu' || state.selectedBoard === 'esp8266-relay')) {
+      tips.push('A0 del ESP8266 solo admite 0–1 V. No conectes una salida analógica de 3.3 V directa.');
+    }
+    if (has('soil-moisture') && state.selectedBoard === 'esp32-cam') {
+      tips.push('En la ESP32-CAM el pin de humedad cae en GPIO2 (ADC2). Ese ADC no mide mientras el WiFi está activo.');
+    }
+  } else if (has('bmp280') || has('bme280') || has('mpu9250')) {
+    tips.push('La placa es de 5 V y BMP280, BME280 o MPU9250 son de 3.3 V. Usa un módulo con regulador o un conversor de nivel.');
+  }
+  if (has('water-pump')) {
+    tips.push('La bomba se enciende con HIGH. Un módulo relé de lógica invertida haría lo contrario: usa un MOSFET de nivel lógico o invierte el digitalWrite.');
+  }
+  tips.forEach(tip => {
+    html += `<div class="warning-box">⚠️ ${tip}</div>`;
+  });
 
   return html;
 }
